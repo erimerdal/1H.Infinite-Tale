@@ -1,6 +1,6 @@
 # Infinite Tale
 
-![alt text](https://raw.githubusercontent.com/uerimerdal/Infinite-Tale-CS319-Group1H/blob/master/Visual/InfiniteTale.png)
+![Alt Text](https://raw.github.com/erimerdal/Infinite-Tale-CS319-Group1H/master/Visual/InfiniteTale.png)
 
 Contributors:
 Erim Erdal
