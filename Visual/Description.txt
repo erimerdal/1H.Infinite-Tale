@@ -1,0 +1,1 @@
+This folder is for uploading visuals that we will use in developing our program.
