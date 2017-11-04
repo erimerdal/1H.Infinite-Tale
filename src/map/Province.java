@@ -7,19 +7,19 @@ public class Province {
     private int id;
     private int ownerId;
     private int currentPop;
-    private static int popLimit;
+    private int popLimit;
     private String lastMessage;
 
-    public Province()
+    public Province(int id)
     {
-        id = 0;
+        id = id;
         ownerId = -1;
         currentPop = 0;
         popLimit = 1000;
         lastMessage = "";
     }
 
-    public static int getPopLimit() {
+    public int getPopLimit() {
         return popLimit;
     }
 

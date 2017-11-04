@@ -35,8 +35,11 @@ public class Map {
             mapTiles.add(createTile(i));
         }
 
+        colors.add(MapColor.RED);
+        colors.add(MapColor.BLUE);
+        colors.add(MapColor.PURPLE);
+
         mapTiles.get(53).setNumOfUnits(8);
-        mapTiles.get(53).setHidden(false);
 
         setNeighbours();
         drawMap();
@@ -53,7 +56,7 @@ public class Map {
                 continue;
 
             mapTiles.get(tile.getId()).setHidden(false);
-            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
         for(int i = 0; i < md.open.size(); i++) {
@@ -62,7 +65,7 @@ public class Map {
                 continue;
 
             mapTiles.get(tile.getId()).setHidden(false);
-            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
         for(int i = 0; i < md.closed.size(); i++) {
@@ -71,7 +74,7 @@ public class Map {
                 continue;
 
             mapTiles.get(tile.getId()).setHidden(true);
-            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
         drawMap();

@@ -17,7 +17,7 @@ public class GameManager {
 	private MapManager mapManager;
 	
 	public GameManager() {
-	    mapManager = new MapManager(0,0);
+	    mapManager = new MapManager();
 	    curTurn = 0;
 	    mapWrappers = new ArrayList<>();
 	    factions = new ArrayList<>();
@@ -34,6 +34,10 @@ public class GameManager {
 			MapWrapper mw = mapWrappers.get(i);
 			factions.add(new Faction(name, i, mw));
 		}
+
+		factions.get(0).setColor(MapColor.RED);
+        factions.get(1).setColor(MapColor.BLUE);
+        factions.get(2).setColor(MapColor.PURPLE);
 	}
 	
 	public MapData getPlayerMap() {

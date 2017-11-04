@@ -6,14 +6,14 @@ public class Tile {
     private Terrain terrain;
     private GenericUnit[] troops;
 
-    public Tile()
+    public Tile(int id, Province owner)
     {
-        id = -1;
+        this.id = id;
         WeatherType weatherType = new WeatherType(false,false,false);
         TerrainType terrainType = new TerrainType( false,false,false);
         terrain = new Terrain(weatherType, terrainType);
         troops = new GenericUnit[0];
-        owner = new Province();
+        this.owner = owner;
     }
 
     public void setId(int id)

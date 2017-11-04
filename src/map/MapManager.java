@@ -1,21 +1,83 @@
 package map;
 
+import java.util.ArrayList;
+
 public class MapManager {
-    private Province[] provinces;
-    private Tile[] tiles;
-    public MapManager(int tileNumber, int provinceNumber)
+    private ArrayList<Province> provinces;
+    private ArrayList<Tile> tiles;
+    public MapManager()
     {
-        provinces = new Province[provinceNumber];
-        tiles = new  Tile[tileNumber];
+        provinces = new ArrayList<>();
+        tiles = new ArrayList<>();
+        // Hardcoded map
+        /*
+        @TODO
+            Implement data loading
+         */
+
+        for(int i = 0; i < 10; i++) {
+            Province prov = new Province(provinces.size());
+            prov.setCurrentPop(100);
+            prov.setOwnerId(0);
+            provinces.add(prov);
+
+            for(int j = 0; j < 5; j++) {
+                Tile tile = new Tile(tiles.size(), prov);
+                tiles.add(tile);
+            }
+        }
+
+        for(int i = 0; i < 10; i++) {
+            Province prov = new Province(provinces.size());
+            prov.setCurrentPop(100);
+            prov.setOwnerId(1);
+            provinces.add(prov);
+
+            for(int j = 0; j < 5; j++) {
+                Tile tile = new Tile(tiles.size(), prov);
+                tiles.add(tile);
+            }
+        }
+
+        for(int i = 0; i < 10; i++) {
+            Province prov = new Province(provinces.size());
+            prov.setCurrentPop(100);
+            prov.setOwnerId(2);
+            provinces.add(prov);
+
+            for(int j = 0; j < 5; j++) {
+                Tile tile = new Tile(tiles.size(), prov);
+                tiles.add(tile);
+            }
+        }
     }
-    public MapData getMapData()
+    public MapData getMapData(int factionId)
     {
         MapData data = new MapData();
+        for(int i = 0; i < tiles.size(); i++) {
+            Tile tile = tiles.get(i);
+            if(tile.getOwner().getOwnerId() == factionId)
+                data.ownedTile.add(tile);
+            else
+                data.closed.add(tile);
+        }
+        for(int i = 0; i < provinces.size(); i++) {
+            if(provinces.get(i).getOwnerId() == factionId)
+                data.ownedProvince.add(provinces.get(i));
+            else
+                data.hidden.add(provinces.get(i));
+        }
         return data;
     }
 
-    public BattleInfo moveUnits(Tile toTile, Tile fromTile)
+    public BattleInfo moveUnits(int from, int to)
     {
+        Tile fromTile = tiles.get(from);
+        Tile toTile = tiles.get(to);
+
+        if(fromTile == null || toTile == null)
+            return null;
+
         GenericUnit[] movingSoldiers = fromTile.getTroops();
         GenericUnit[] stayingSoldiers = toTile.getTroops();
         fromTile.removeUnits(movingSoldiers.length);
@@ -37,13 +99,13 @@ public class MapManager {
         return resultRecruit;
     }
 
-    public Tile[] getTileByLocation()
+    public ArrayList<Tile> getTileByLocation()
     {
         // What is this function supposed to do?
         return tiles;
     }
 
-    public Province[] getProvincesByOwner()
+    public ArrayList<Province> getProvincesByOwner()
     {
         // About owners?
         return provinces;
@@ -60,19 +122,23 @@ public class MapManager {
         return false;
     }
 
-    public Province[] getProvinces() {
+    public ArrayList<Province> getProvinces() {
         return provinces;
     }
 
-    public void setProvinces(Province[] provinces) {
+    public void setProvinces(ArrayList<Province> provinces) {
         this.provinces = provinces;
     }
 
-    public Tile[] getTiles() {
+    public ArrayList<Tile> getTiles() {
         return tiles;
     }
 
-    public void setTiles(Tile[] tiles) {
+    public void setTiles(ArrayList<Tile> tiles) {
         this.tiles = tiles;
+    }
+
+    public Tile getTileById(int id) {
+        return tiles.get(id);
     }
 }

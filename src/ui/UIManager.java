@@ -67,7 +67,7 @@ public class UIManager extends Application {
             }
         });
 
-        map.updateMap(new MapData());
+        map.updateMap(gameManager.getPlayerMap());
 
         GridPane settingsPane = new GridPane();
         SettingsManager settingsManager = new SettingsManager(settingsPane, inputManager);

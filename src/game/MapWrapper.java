@@ -17,7 +17,7 @@ public class MapWrapper {
     }
 
     public BattleInfo moveUnits(int from, int to) {
-        return mapManager.moveUnits(new Tile(), new Tile());
+        return mapManager.moveUnits(from, to);
     }
 
     public boolean recruitUnits(Tile loc, int amount) {
@@ -29,11 +29,11 @@ public class MapWrapper {
     }
 
     public MapData getMapData() {
-        return new MapData();
+        return mapManager.getMapData(factionId);
     }
 
     public TileInfo getTileInfo(int id) {
-        return new TileInfo(new Tile());
+        return new TileInfo(mapManager.getTileById(id));
     }
 
     public int getId() {
