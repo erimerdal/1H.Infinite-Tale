@@ -10,90 +10,54 @@ public class GameManager {
 	final public int FACS = 3;
 	
 	public int curTurn;
-	public int curFactionId;
-	
-	private ArrayList<Integer> factionOrder;
+
 	private ArrayList<Faction> factions;
 	private ArrayList<MapWrapper> mapWrappers;
 	
-	private String message;
-	
 	private MapManager mapManager;
 	
-	public GameManager(MapManager mapManager) {
-		this(0, 0, mapManager);
-	}
-	
-	public GameManager(int curTurn, int curFactionId, MapManager mapManager) {
-		this.curTurn = curTurn;
-		this.curFactionId = curFactionId;
+	public GameManager() {
+	    mapManager = new MapManager(0,0);
+	    curTurn = 0;
 		
 		for (int i = 0; i < FACS; i++) {
-			MapWrapper mw = new MapWrapper(i, i + 1, mapManager);
-			
+			MapWrapper mw = new MapWrapper(i, i, mapManager);
+
 			mapWrappers.add(mw);
 		}
-		
-		for (int i = 0; i < FACS; i++) {
-			String name = "Faction " + (i + 1);
+		factions.add(new Faction("Player", 0, mapWrappers.get(0), true));
+		for (int i = 1; i < FACS; i++) {
+			String name = "Faction " + i;
 			
 			MapWrapper mw = mapWrappers.get(i);
-			
-			if (i == FACS - 1)
-				Faction f = new Faction(name, i + 1, mw);
-			
-			else
-				Faction f = new Faction(name, i + 1, mw, true);
-			
-			factions.add(f);
+			factions.add(new Faction(name, i, mw));
 		}
-		
-		// Factions are ordered 1 to FACS initially
-		for (int i = 0; i < FACS; i++) {
-			factionOrder.add(factions.get(i).getId());
-		}
-		
-		message = "";
-		
-		this.mapManager = mapManager;
 	}
 	
 	public MapData getPlayerMap() {
-		return mapWrappers.get(curFactionId).getMapData();
+		return mapWrappers.get(0).getMapData();
 	}
 	
-	public TileInfo getTileInfo() {
-		return mapWrappers.get(curFactionId).getTileInfo();
+	public TileInfo getTileInfo(int tileId) {
+		return mapWrappers.get(0).getTileInfo(tileId);
 	}
 	
-	public FactionData getFactionInfo() {
-		return factions.get(curFactionId).getFactionData();
+	public FactionData getFactionInfo(int factionId) {
+		return factions.get(0).getFactionData(factionId);
 	}
 	
 	private void endTurn() {
-		/*
-		 * @TODO
-		 * 	Implementation
-		 */
-		
+	    for(int i = 0; i < factions.size(); i++)
+	        factions.get(i).playTurn();
+
 		curTurn++;
 	}
 	
-	private BattleInfo moveUnit() {
-		/*
-		 * @TODO
-		 * 	Implementation
-		 */
-		
-		// mapManager.moveUnits ???
+	private BattleInfo moveUnit(int from, int to) {
+	    return mapWrappers.get(0).moveUnits(from, to);
 	}
 	
-	private boolean recruitUnit() {
-		/*
-		 * @TODO
-		 * 	Implementation
-		 */
-		
-		// factions.get(curFactionId).recruit ???
+	private boolean recruitUnit(int amount, int loc) {
+        return factions.get(0).recruit(amount, loc);
 	}
 }

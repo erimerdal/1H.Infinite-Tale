@@ -79,7 +79,7 @@ public class Faction {
          */
     }
 
-    public boolean recruit(int amount, Tile loc) {
+    public boolean recruit(int amount, int loc) {
         /*
         @TODO
             Implementation
