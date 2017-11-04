@@ -1,6 +1,7 @@
 package ui;
 
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import map.MapData;
@@ -27,6 +28,7 @@ public class Map {
         for(int i = 0; i < numOfTiles; i++) {
             mapTiles.add(createTile(i));
         }
+        setNeighbours();
         drawMap();
     }
 
@@ -88,11 +90,23 @@ public class Map {
         mapTile.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(lastClicked < mapTiles.size())
-                    mapTiles.get(lastClicked).setStrokeWidth(1);
+                if(event.getButton() == MouseButton.PRIMARY) {
+                    if (lastClicked < mapTiles.size())
+                        mapTiles.get(lastClicked).setSelected(false);
 
-                lastClicked = mapTile.getTileId();
-                mapTiles.get(lastClicked).setStrokeWidth(5);
+                    lastClicked = mapTile.getTileId();
+                    mapTiles.get(lastClicked).setSelected(true);
+                }
+                else if(event.getButton() == MouseButton.SECONDARY) {
+                    MapTile last = mapTiles.get(lastClicked);
+                    if(!last.isHidden() && last.getNumOfUnits() > 0 && last.isNeighbour(mapTile.getTileId())) {
+                        System.out.println(last.getTileId() +  " sends soldiers to " + mapTile.getTileId());
+                        /*
+                        @TODO
+                            Implement move units
+                         */
+                    }
+                }
             }
         });
 
@@ -114,5 +128,44 @@ public class Map {
 
     public int getLastClicked() {
         return lastClicked;
+    }
+
+    private void setNeighbours() {
+        for(int i = 0; i < mapTiles.size(); i++) {
+            ArrayList<MapTile> nb = new ArrayList<>();
+            int index = 0;
+
+            //Top-left nb
+            index = i - mapWidth;
+            if(index > -1 && i % (mapWidth * 2 - 1) != 0)
+                nb.add(mapTiles.get(index));
+
+            //Top nb
+            index = i - mapWidth * 2 + 1;
+            if(index > -1)
+                nb.add(mapTiles.get(index));
+
+            //Top-right nb
+            index = i - mapWidth + 1;
+            if(index > -1 && i % (mapWidth * 2 - 1) != 9)
+                nb.add(mapTiles.get(index));
+
+            //Bottom-right nb
+            index = i + mapWidth;
+            if(index < mapTiles.size() && i % (mapWidth * 2 - 1) != 9)
+                nb.add(mapTiles.get(index));
+
+            //Bottom nb
+            index = i + mapWidth * 2 - 1;
+            if(index < mapTiles.size())
+                nb.add(mapTiles.get(index));
+
+            //Bottom-left nb
+            index = i + mapWidth - 1;
+            if(index < mapTiles.size() && i % (mapWidth * 2 - 1) != 0)
+                nb.add(mapTiles.get(index));
+
+            mapTiles.get(i).setNeighbours(nb);
+        }
     }
 }
