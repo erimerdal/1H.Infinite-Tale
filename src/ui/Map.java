@@ -35,8 +35,8 @@ public class Map {
             return;
 
         mapData = md;
-        for(int i = 0; i < md.ownedTile.length; i++) {
-            Tile tile = md.ownedTile[i];
+        for(int i = 0; i < md.ownedTile.size(); i++) {
+            Tile tile = md.ownedTile.get(i);
             if(tile == null)
                 continue;
 
@@ -44,8 +44,8 @@ public class Map {
             mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
-        for(int i = 0; i < md.open.length; i++) {
-            Tile tile = md.open[i];
+        for(int i = 0; i < md.open.size(); i++) {
+            Tile tile = md.open.get(i);
             if(tile == null)
                 continue;
 
@@ -53,8 +53,8 @@ public class Map {
             mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
-        for(int i = 0; i < md.closed.length; i++) {
-            Tile tile = md.closed[i];
+        for(int i = 0; i < md.closed.size(); i++) {
+            Tile tile = md.closed.get(i);
             if(tile == null)
                 continue;
 

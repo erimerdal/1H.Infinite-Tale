@@ -14,6 +14,7 @@ public class Faction {
     private MapColor color;
     private int treasury;
     private MapWrapper mapWrapper;
+    private boolean isDefeated;
     private ArrayList<Province> ownProv;
     private ArrayList<Province> visibleProv;
     private ArrayList<Province> hiddenProv;
@@ -33,6 +34,7 @@ public class Faction {
 
         color = MapColor.GRAY;
         treasury = 0;
+        isDefeated = false;
         ownProv = new ArrayList<>();
         visibleProv = new ArrayList<>();
         hiddenProv = new ArrayList<>();
@@ -62,6 +64,10 @@ public class Faction {
 
     public void playTurn() {
         updateMapData();
+
+        if(isDefeated)
+            return;
+
         treasury += getIncome() - getExpense();
 
         if(isPlayer)
@@ -99,10 +105,15 @@ public class Faction {
 
     private void updateMapData() {
         MapData md = mapWrapper.getMapData();
-        /*
-        @TODO
-            Implement data update
-         */
+        ownProv = md.ownedProvince;
+        visibleProv = md.visible;
+        hiddenProv = md.hidden;
+        ownTile = md.ownedTile;
+        visibleTile = md.open;
+        hiddenTile = md.closed;
+
+        if(ownProv.size() < 1)
+            isDefeated = true;
     }
 
     private int getIncome() {
