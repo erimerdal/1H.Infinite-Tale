@@ -1,5 +1,6 @@
 package ui;
 
+import game.MapWrapper;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -49,7 +50,13 @@ public class UIManager extends Application {
         map.updateMap(new MapData());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
+        game.MapWrapper mapWrapper = new MapWrapper();
+        game.Faction erim = new game.Faction("Erim", 0, mapWrapper, true );
+        game.Faction artificial = new game.Faction( "AI" , 1, mapWrapper, false);
+        System.out.println(erim.getTreasury());
+
         launch(args);
     }
 }

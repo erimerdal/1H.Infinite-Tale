@@ -14,21 +14,21 @@ public class MapManager {
         return data;
     }
 
-    public boolean moveUnits(Tile toTile, Tile fromTile)
+    public BattleInfo moveUnits(Tile toTile, Tile fromTile)
     {
         GenericUnit[] movingSoldiers = fromTile.getTroops();
         GenericUnit[] stayingSoldiers = toTile.getTroops();
         fromTile.removeUnits(movingSoldiers.length);
         toTile.addUnits(movingSoldiers.length);
         /* If it is enemy tile we should start a war. */
+        BattleInfo battle = new BattleInfo();
         if(toTile.getOwner() != fromTile.getOwner())
         {
-            BattleInfo battle = new BattleInfo();
             battle.setAttackerArmy(movingSoldiers);
             battle.setDefenderArmy(stayingSoldiers);
             battle.calcCasulties(toTile);
         }
-        return true;
+        return battle;
     }
 
     public boolean recruitUnits(Tile thatTile, int number)
