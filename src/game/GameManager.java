@@ -19,6 +19,8 @@ public class GameManager {
 	public GameManager() {
 	    mapManager = new MapManager(0,0);
 	    curTurn = 0;
+	    mapWrappers = new ArrayList<>();
+	    factions = new ArrayList<>();
 		
 		for (int i = 0; i < FACS; i++) {
 			MapWrapper mw = new MapWrapper(i, i, mapManager);
@@ -46,18 +48,18 @@ public class GameManager {
 		return factions.get(0).getFactionData(factionId);
 	}
 	
-	private void endTurn() {
+	public void endTurn() {
 	    for(int i = 0; i < factions.size(); i++)
 	        factions.get(i).playTurn();
 
 		curTurn++;
 	}
 	
-	private BattleInfo moveUnit(int from, int to) {
+	public BattleInfo moveUnit(int from, int to) {
 	    return mapWrappers.get(0).moveUnits(from, to);
 	}
 	
-	private boolean recruitUnit(int amount, int loc) {
+	public boolean recruitUnit(int amount, int loc) {
         return factions.get(0).recruit(amount, loc);
 	}
 }

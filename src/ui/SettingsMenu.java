@@ -1,57 +1,45 @@
-
 package ui;
 
 
 
 import javafx.scene.control.Button;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
-
-
-
-public class SettingsMenu extends Application{
-
+public class SettingsMenu{
     MusicManager musicManager = new MusicManager();
-     public static String username;
+    public String username;
+    private GridPane settingsPane;
+    private InputManager inputManager;
 
+    public SettingsMenu(GridPane settingsPane, InputManager inputManager) {
+        this.settingsPane = settingsPane;
+        this.inputManager = inputManager;
 
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("SETTINGS");
         String volume = "Mute";
         String noVolume = "Unmute";
         Button muteButton = new Button(volume);
 
+        settingsPane.setPadding(new Insets(15));
+        settingsPane.setHgap(5);
+        settingsPane.setVgap(5);
+        settingsPane.setAlignment(Pos.CENTER);
 
-
-
-        GridPane layout = new GridPane();
-
-        layout.setPadding(new Insets(15));
-        layout.setHgap(5);
-        layout.setVgap(5);
-        layout.setAlignment(Pos.CENTER);
-
-        Scene myScene = new Scene(layout,500,600);
-
-        layout.add(new Label("Username:"), 0, 0);
+        settingsPane.add(new Label("Username:"), 0, 0);
         TextField textField = new TextField();
-        layout.add(textField, 1, 0);
+        settingsPane.add(textField, 1, 0);
         username = textField.getText();
 
-        layout.add(muteButton,1,5);
+        settingsPane.add(muteButton,1,5);
 
-        layout.setStyle("-fx-background-color: black");
+        settingsPane.setStyle("-fx-background-color: black");
         muteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -69,26 +57,15 @@ public class SettingsMenu extends Application{
             }
         });
 
-        primaryStage.setScene(myScene);
-        primaryStage.show();
-
-
+        Button closeButton = new Button("Close Settings");
+        closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.PRIMARY) {
+                    inputManager.closeSettings();
+                }
+            }
+        });
+        settingsPane.add(closeButton,1,7);
     }
-/*
-    EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            musicManager.setMuted();
-
-        }
-    };
-    */
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-
 }

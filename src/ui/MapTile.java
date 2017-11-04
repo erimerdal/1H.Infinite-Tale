@@ -2,6 +2,7 @@ package ui;
 
 import game.MapColor;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -21,6 +22,7 @@ public class MapTile extends Polygon {
     private boolean selected;
     private boolean target;
     private ArrayList<MapTile> neighbours;
+    private Label soldierLabel;
     public MapTile(int id, double side, double r3) {
         super(new double[]{
                 0, r3,
@@ -39,6 +41,8 @@ public class MapTile extends Polygon {
         selected = false;
         target = false;
         neighbours = new ArrayList<>();
+        soldierLabel = new Label("");
+        soldierLabel.setStyle("-fx-font-weight: bold;-fx-font-size: 12;");
         /*
         @TODO
             terrain initialization
@@ -84,6 +88,10 @@ public class MapTile extends Polygon {
 
     public void setNumOfUnits(int n) {
         numOfUnits = n;
+        if(n > 0)
+            soldierLabel.setText("S: " + n);
+        else
+            soldierLabel.setText("");
         /*
         @TODO
             Implement visuals for soldiers on map
@@ -155,5 +163,9 @@ public class MapTile extends Polygon {
                 return true;
         }
         return false;
+    }
+
+    public Label getSoldierLabel() {
+        return soldierLabel;
     }
 }

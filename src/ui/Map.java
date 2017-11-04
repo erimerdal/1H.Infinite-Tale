@@ -1,6 +1,8 @@
 package ui;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -13,21 +15,29 @@ import java.util.ArrayList;
 
 public class Map {
     private MapData mapData;
+    private InputManager inputManager;
     private ArrayList<MapColor> colors;
     private StackPane mapPane;
     private ArrayList<MapTile> mapTiles;
-    private int mapWidth = 10;
-    private int numOfTiles = 250;
+    private ArrayList<Label> soldierLabels;
+    private int mapWidth = 8;
+    private int numOfTiles = 150;
     private int lastClicked = 0;
 
-    public Map(StackPane mp) {
+    public Map(StackPane mp, InputManager im) {
         mapPane = mp;
+        inputManager = im;
         colors = new ArrayList<>();
         mapData = new MapData();
         mapTiles = new ArrayList<>();
+        soldierLabels = new ArrayList<>();
         for(int i = 0; i < numOfTiles; i++) {
             mapTiles.add(createTile(i));
         }
+
+        mapTiles.get(53).setNumOfUnits(8);
+        mapTiles.get(53).setHidden(false);
+
         setNeighbours();
         drawMap();
     }
@@ -78,6 +88,7 @@ public class Map {
 
     private void drawMap() {
         mapPane.getChildren().setAll(mapTiles);
+        mapPane.getChildren().addAll(soldierLabels);
     }
 
     private MapTile createTile(int id) {
@@ -96,15 +107,13 @@ public class Map {
 
                     lastClicked = mapTile.getTileId();
                     mapTiles.get(lastClicked).setSelected(true);
+                    inputManager.showTileInfo(lastClicked);
                 }
                 else if(event.getButton() == MouseButton.SECONDARY) {
                     MapTile last = mapTiles.get(lastClicked);
                     if(!last.isHidden() && last.getNumOfUnits() > 0 && last.isNeighbour(mapTile.getTileId())) {
                         System.out.println(last.getTileId() +  " sends soldiers to " + mapTile.getTileId());
-                        /*
-                        @TODO
-                            Implement move units
-                         */
+                        inputManager.moveUnits(last.getTileId(), mapTile.getTileId());
                     }
                 }
             }
@@ -114,7 +123,6 @@ public class Map {
         int row = col / mapWidth;
         row = row + id / (mapWidth * 2 - 1) * 2;
         col %= mapWidth;
-
         if(row % 2 == 0) {
             mapTile.setTranslateX(topLeftX + col * side * 3 + side);
         }
@@ -122,6 +130,10 @@ public class Map {
             mapTile.setTranslateX(topLeftX + col * side * 3 + side * 5 / 2);
         }
         mapTile.setTranslateY(topLeftY + row * r3 + r3);
+
+        mapTile.getSoldierLabel().setTranslateX(mapTile.getTranslateX());
+        mapTile.getSoldierLabel().setTranslateY(mapTile.getTranslateY() - side / 2);
+        soldierLabels.add(mapTile.getSoldierLabel());
 
         return mapTile;
     }
