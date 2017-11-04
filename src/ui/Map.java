@@ -3,37 +3,65 @@ package ui;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Polygon;
 import map.MapData;
 import game.FactionData;
 import game.MapColor;
+import map.Tile;
 
 import java.util.ArrayList;
 
 public class Map {
     private MapData mapData;
     private ArrayList<MapColor> colors;
-    private ArrayList<Integer> factionIds;
     private StackPane mapPane;
-    private ArrayList<Polygon> tilePols;
+    private ArrayList<MapTile> mapTiles;
     private int mapWidth = 10;
+    private int numOfTiles = 250;
     private int lastClicked = 0;
 
     public Map(StackPane mp) {
         mapPane = mp;
         colors = new ArrayList<>();
-        factionIds = new ArrayList<>();
         mapData = new MapData();
-        tilePols = new ArrayList<>();
+        mapTiles = new ArrayList<>();
+        for(int i = 0; i < numOfTiles; i++) {
+            mapTiles.add(createTile(i));
+        }
+        drawMap();
     }
 
     public void updateMap(MapData md) {
+        if(md == null)
+            return;
+
         mapData = md;
-        //mapPane.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-        for(int i = 0; i < 100; i++) {
-            tilePols.add(createTile(i));
+        for(int i = 0; i < md.ownedTile.length; i++) {
+            Tile tile = md.ownedTile[i];
+            if(tile == null)
+                continue;
+
+            mapTiles.get(tile.getId()).setHidden(false);
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
+            mapTiles.get(tile.getId()).updateTile(tile);
         }
-        System.out.println(mapPane.getWidth());
+        for(int i = 0; i < md.open.length; i++) {
+            Tile tile = md.open[i];
+            if(tile == null)
+                continue;
+
+            mapTiles.get(tile.getId()).setHidden(false);
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
+            mapTiles.get(tile.getId()).updateTile(tile);
+        }
+        for(int i = 0; i < md.closed.length; i++) {
+            Tile tile = md.closed[i];
+            if(tile == null)
+                continue;
+
+            mapTiles.get(tile.getId()).setHidden(true);
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getId()));
+            mapTiles.get(tile.getId()).updateTile(tile);
+        }
         drawMap();
     }
 
@@ -47,7 +75,7 @@ public class Map {
     }
 
     private void drawMap() {
-        mapPane.getChildren().setAll(tilePols);
+        mapPane.getChildren().setAll(mapTiles);
     }
 
     private MapTile createTile(int id) {
@@ -55,16 +83,16 @@ public class Map {
         double topLeftY = 0 - mapPane.getHeight() / 2;
         double side = mapPane.getWidth() / (mapWidth * 3 - 1);
         double r3 = Math.sqrt(3) * side / 2;
-        MapTile hex = new MapTile(id, side, r3);
+        MapTile mapTile = new MapTile(id, side, r3);
 
-        hex.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        mapTile.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(lastClicked < tilePols.size())
-                    tilePols.get(lastClicked).setStrokeWidth(1);
+                if(lastClicked < mapTiles.size())
+                    mapTiles.get(lastClicked).setStrokeWidth(1);
 
-                lastClicked = hex.getTileId();
-                tilePols.get(lastClicked).setStrokeWidth(3);
+                lastClicked = mapTile.getTileId();
+                mapTiles.get(lastClicked).setStrokeWidth(5);
             }
         });
 
@@ -74,14 +102,14 @@ public class Map {
         col %= mapWidth;
 
         if(row % 2 == 0) {
-            hex.setTranslateX(topLeftX + col * side * 3 + side);
+            mapTile.setTranslateX(topLeftX + col * side * 3 + side);
         }
         else {
-            hex.setTranslateX(topLeftX + col * side * 3 + side * 5 / 2);
+            mapTile.setTranslateX(topLeftX + col * side * 3 + side * 5 / 2);
         }
-        hex.setTranslateY(topLeftY + row * r3 + r3);
+        mapTile.setTranslateY(topLeftY + row * r3 + r3);
 
-        return hex;
+        return mapTile;
     }
 
     public int getLastClicked() {

@@ -40,6 +40,10 @@ public class Tile {
     {
         return troops;
     }
+    public Province getOwner() {
+        return owner;
+    }
+
     public boolean addUnits(int number)
     {
         // First checks if Province can handle this number of units.

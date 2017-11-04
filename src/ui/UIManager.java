@@ -25,15 +25,6 @@ public class UIManager extends Application {
         SplitPane.setResizableWithParent(mapPane, false);
         mapPane.setMinSize(1024, 768);
 
-        Map map = new Map(mapPane);
-
-        mapPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(map.getLastClicked() + " tıklandı");
-            }
-        });
-
         SplitPane infoPane = new SplitPane();
         infoPane.setOrientation(Orientation.VERTICAL);
         infoPane.getItems().add(new Button("first"));
@@ -45,6 +36,16 @@ public class UIManager extends Application {
 
         primaryStage.setScene(new Scene(mainPane, 1280, 960));
         primaryStage.show();
+
+        Map map = new Map(mapPane);
+
+        mapPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(map.getLastClicked() + " tıklandı");
+            }
+        });
+
         map.updateMap(new MapData());
     }
 
