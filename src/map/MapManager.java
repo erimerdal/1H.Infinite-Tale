@@ -3,10 +3,10 @@ package map;
 public class MapManager {
     private Province[] provinces;
     private Tile[] tiles;
-    public MapManager()
+    public MapManager(int tileNumber, int provinceNumber)
     {
-        provinces = new Province[0];
-        tiles = new  Tile[0];
+        provinces = new Province[provinceNumber];
+        tiles = new  Tile[tileNumber];
     }
     public MapData getMapData()
     {
