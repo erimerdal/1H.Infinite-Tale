@@ -39,8 +39,6 @@ public class Map {
         colors.add(MapColor.BLUE);
         colors.add(MapColor.PURPLE);
 
-        mapTiles.get(53).setNumOfUnits(8);
-
         setNeighbours();
         drawMap();
     }

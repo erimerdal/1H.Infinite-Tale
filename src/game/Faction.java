@@ -87,6 +87,26 @@ public class Faction {
         return true;
     }
 
+    public TileInfo getTileInfo(int tileId) {
+        updateMapData();
+        TileInfo ti = mapWrapper.getTileInfo(tileId);
+        if(ti == null)
+            return ti;
+
+        if(ti.tile.getOwner().getOwnerId() == id)
+            ti.isVisible = true;
+        else {
+            for(int i = 0; i < visibleTile.size(); i++) {
+                if(visibleTile.get(i).getId() == tileId) {
+                    ti.isVisible = true;
+                    return ti;
+                }
+            }
+        }
+
+        return ti;
+    }
+
     private boolean recruitMultiple(int amount, Province loc) {
         /*
         @TODO
@@ -128,9 +148,9 @@ public class Faction {
     private int getExpense() {
         int exp = 0;
         for(int i = 0; i < ownTile.size(); i++) {
-            GenericUnit[] troops = ownTile.get(i).getTroops();
-            if(troops.length > 0) {
-                exp += troops.length * troops[0].getWage();
+            ArrayList<GenericUnit> troops = ownTile.get(i).getTroops();
+            if(troops.size() > 0) {
+                exp += troops.size() * troops.get(0).getWage();
             }
         }
 
@@ -140,7 +160,7 @@ public class Faction {
     private int getTotalUnits() {
         int sum = 0;
         for(int i = 0; i < ownTile.size(); i++) {
-            sum += ownTile.get(i).getTroops().length;
+            sum += ownTile.get(i).getTroops().size();
         }
 
         return sum;

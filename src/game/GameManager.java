@@ -45,7 +45,9 @@ public class GameManager {
 	}
 	
 	public TileInfo getTileInfo(int tileId) {
-		return mapWrappers.get(0).getTileInfo(tileId);
+		TileInfo tileInfo = factions.get(0).getTileInfo(tileId);
+		tileInfo.owner = factions.get(tileInfo.tile.getOwner().getOwnerId()).getName();
+		return tileInfo;
 	}
 	
 	public FactionData getFactionInfo(int factionId) {

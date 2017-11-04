@@ -1,12 +1,14 @@
 package map;
 
 public class GenericUnit {
-
+    private final int MAX_COUNT = 100;
+    private final int BASE_WAGE = 1;
     private int wage;
     private int cost;
     private boolean isBeingRecruited;
     private boolean isMoved;
     private int ownerId;
+    private int count;
 
     public GenericUnit()
     {
@@ -17,10 +19,6 @@ public class GenericUnit {
         ownerId = -1;
     }
 
-    public void setWage(int wage)
-    {
-        this.wage = wage;
-    }
     public void setCost(int cost)
     {
         this.cost = cost;
@@ -57,5 +55,14 @@ public class GenericUnit {
     {
         return isBeingRecruited;
     }
+    public int getCount() {
+        return count;
+    }
+    public void setCount(int count) {
+        if(count < 0 || count > MAX_COUNT)
+            return;
 
+        this.count = count;
+        wage = count * BASE_WAGE;
+    }
 }

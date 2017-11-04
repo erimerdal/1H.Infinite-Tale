@@ -7,15 +7,12 @@ import map.GenericUnit;
 import java.util.ArrayList;
 
 public class TileInfo {
+	public String owner;
 	public Tile tile;
-	public Province ownerProvince;
-	public GenericUnit[] units;
+	public boolean isVisible;
 	
 	public TileInfo(Tile tile) {
 		this.tile = tile;
-		
-		ownerProvince = tile.getOwner();
-		
-		units = tile.getTroops();
+		isVisible = false;
 	}
 }

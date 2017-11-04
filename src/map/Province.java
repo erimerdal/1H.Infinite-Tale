@@ -2,6 +2,8 @@ package map;
 
 // FUNCTION OF LASTMESSAGE?
 
+import java.util.ArrayList;
+
 public class Province {
 
     private int id;
@@ -9,14 +11,16 @@ public class Province {
     private int currentPop;
     private int popLimit;
     private String lastMessage;
+    private ArrayList<Integer> neighbours;
 
     public Province(int id)
     {
-        id = id;
+        this.id = id;
         ownerId = -1;
         currentPop = 0;
         popLimit = 1000;
         lastMessage = "";
+        neighbours = new ArrayList<>();
     }
 
     public int getPopLimit() {
@@ -79,5 +83,13 @@ public class Province {
         {
             return false;
         }
+    }
+
+    public ArrayList<Integer> getNeighbours() {
+        return neighbours;
+    }
+
+    public void setNeighbours(ArrayList<Integer> neighbours) {
+        this.neighbours = neighbours;
     }
 }

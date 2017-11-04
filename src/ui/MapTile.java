@@ -74,7 +74,7 @@ public class MapTile extends Polygon {
         if(tileId != tile.getId())
             return false;
 
-        setNumOfUnits(tile.getTroops().length);
+        setNumOfUnits(tile.getTroops().size());
         setTerrain(tile.getTerrain());
 
         return true;
@@ -88,7 +88,7 @@ public class MapTile extends Polygon {
 
     public void setNumOfUnits(int n) {
         numOfUnits = n;
-        if(n > 0)
+        if(n > 0 && !hidden)
             soldierLabel.setText("S: " + n);
         else
             soldierLabel.setText("");

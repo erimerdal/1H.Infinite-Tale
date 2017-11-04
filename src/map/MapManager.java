@@ -1,10 +1,12 @@
 package map;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MapManager {
     private ArrayList<Province> provinces;
     private ArrayList<Tile> tiles;
+    private int mapWidth = 8;
     public MapManager()
     {
         provinces = new ArrayList<>();
@@ -14,6 +16,7 @@ public class MapManager {
         @TODO
             Implement data loading
          */
+        Random rand = new Random();
 
         for(int i = 0; i < 10; i++) {
             Province prov = new Province(provinces.size());
@@ -23,6 +26,9 @@ public class MapManager {
 
             for(int j = 0; j < 5; j++) {
                 Tile tile = new Tile(tiles.size(), prov);
+                int r = rand.nextInt(4);
+                if(r > 2)
+                    tile.addUnits((int)(rand.nextInt(50)));
                 tiles.add(tile);
             }
         }
@@ -35,6 +41,9 @@ public class MapManager {
 
             for(int j = 0; j < 5; j++) {
                 Tile tile = new Tile(tiles.size(), prov);
+                int r = rand.nextInt(4);
+                if(r > 2)
+                    tile.addUnits((int)(rand.nextInt(50)));
                 tiles.add(tile);
             }
         }
@@ -47,9 +56,14 @@ public class MapManager {
 
             for(int j = 0; j < 5; j++) {
                 Tile tile = new Tile(tiles.size(), prov);
+                int r = rand.nextInt(4);
+                if(r > 2)
+                    tile.addUnits((int)(rand.nextInt(50)));
                 tiles.add(tile);
             }
         }
+
+        setNeighbours();
     }
     public MapData getMapData(int factionId)
     {
@@ -58,14 +72,40 @@ public class MapManager {
             Tile tile = tiles.get(i);
             if(tile.getOwner().getOwnerId() == factionId)
                 data.ownedTile.add(tile);
-            else
+            else {
+                ArrayList<Integer> ownerNbs = tile.getOwner().getNeighbours();
+                boolean visible = false;
+                for(int j = 0; j < ownerNbs.size() && !visible; j++) {
+                    if(provinces.get(ownerNbs.get(j)).getOwnerId() == factionId) {
+                        data.open.add(tile);
+                        visible = true;
+                        break;
+                    }
+                }
+                if(visible)
+                    continue;
+
                 data.closed.add(tile);
+            }
         }
         for(int i = 0; i < provinces.size(); i++) {
             if(provinces.get(i).getOwnerId() == factionId)
                 data.ownedProvince.add(provinces.get(i));
-            else
+            else {
+                ArrayList<Integer> ownerNbs = provinces.get(i).getNeighbours();
+                boolean visible = false;
+                for(int j = 0; j < ownerNbs.size() && !visible; j++) {
+                    if(provinces.get(ownerNbs.get(j)).getOwnerId() == factionId) {
+                        data.visible.add(provinces.get(i));
+                        visible = true;
+                        break;
+                    }
+                }
+                if(visible)
+                    continue;
+
                 data.hidden.add(provinces.get(i));
+            }
         }
         return data;
     }
@@ -78,17 +118,18 @@ public class MapManager {
         if(fromTile == null || toTile == null)
             return null;
 
-        GenericUnit[] movingSoldiers = fromTile.getTroops();
-        GenericUnit[] stayingSoldiers = toTile.getTroops();
-        fromTile.removeUnits(movingSoldiers.length);
-        toTile.addUnits(movingSoldiers.length);
+        ArrayList<GenericUnit> movingSoldiers = fromTile.getTroops();
+        ArrayList<GenericUnit> stayingSoldiers = toTile.getTroops();
+        fromTile.removeUnits(movingSoldiers.size());
+        toTile.addUnits(movingSoldiers.size());
         /* If it is enemy tile we should start a war. */
         BattleInfo battle = new BattleInfo();
         if(toTile.getOwner() != fromTile.getOwner())
         {
-            battle.setAttackerArmy(movingSoldiers);
-            battle.setDefenderArmy(stayingSoldiers);
-            battle.calcCasulties(toTile);
+            /*
+            @TODO
+                Implement battle
+             */
         }
         return battle;
     }
@@ -99,16 +140,14 @@ public class MapManager {
         return resultRecruit;
     }
 
-    public ArrayList<Tile> getTileByLocation()
+    public ArrayList<Tile> getTilesByLocation(int provinceId)
     {
-        // What is this function supposed to do?
-        return tiles;
-    }
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for(int i = 0; i < this.tiles.size(); i++)
+            if(this.tiles.get(i).getOwner().getId() == provinceId)
+                tiles.add(this.tiles.get(i));
 
-    public ArrayList<Province> getProvincesByOwner()
-    {
-        // About owners?
-        return provinces;
+        return tiles;
     }
 
     public boolean updatePopulation(Tile thatTile)
@@ -140,5 +179,61 @@ public class MapManager {
 
     public Tile getTileById(int id) {
         return tiles.get(id);
+    }
+
+    private void setNeighbours() {
+        for(int i = 0; i < provinces.size(); i++) {
+            ArrayList<Integer> nb = new ArrayList<>();
+            int ownerId = provinces.get(i).getOwnerId();
+            ArrayList<Tile> owned = getTilesByLocation(provinces.get(i).getId());
+            for(int j = 0; j < owned.size(); j++) {
+                ArrayList<Tile> nbTiles = getNeighbourTiles(owned.get(j).getId());
+
+                for(int k = 0; k < nbTiles.size(); k++) {
+                    Province owner = nbTiles.get(k).getOwner();
+                    if(owner.getOwnerId() != ownerId && !nb.contains(owner.getId()))
+                        nb.add(owner.getId());
+                }
+            }
+
+            provinces.get(i).setNeighbours(nb);
+        }
+    }
+
+    private ArrayList<Tile> getNeighbourTiles(int id) {
+        ArrayList<Tile> nb = new ArrayList<>();
+        int index = 0;
+
+        //Top-left nb
+        index = id - mapWidth;
+        if(index > -1 && id % (mapWidth * 2 - 1) != 0)
+            nb.add(tiles.get(index));
+
+        //Top nb
+        index = id - mapWidth * 2 + 1;
+        if(index > -1)
+            nb.add(tiles.get(index));
+
+        //Top-right nb
+        index = id - mapWidth + 1;
+        if(index > -1 && id % (mapWidth * 2 - 1) != 9)
+            nb.add(tiles.get(index));
+
+        //Bottom-right nb
+        index = id + mapWidth;
+        if(index < tiles.size() && id % (mapWidth * 2 - 1) != 9)
+            nb.add(tiles.get(index));
+
+        //Bottom nb
+        index = id + mapWidth * 2 - 1;
+        if(index < tiles.size())
+            nb.add(tiles.get(index));
+
+        //Bottom-left nb
+        index = id + mapWidth - 1;
+        if(index < tiles.size() && id % (mapWidth * 2 - 1) != 0)
+            nb.add(tiles.get(index));
+
+        return nb;
     }
 }

@@ -2,6 +2,7 @@ package ui;
 
 import game.GameManager;
 import game.MapWrapper;
+import game.TileInfo;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -20,6 +21,7 @@ public class UIManager extends Application {
     private Stage primaryStage;
     private Scene settingsScene;
     private Scene gameScene;
+    private TileInfoWindow tileInfoWindow;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -42,10 +44,13 @@ public class UIManager extends Application {
         leftPane.getItems().add(headerPane);
         leftPane.getItems().add(mapPane);
 
+        GridPane tileInfoPane = new GridPane();
+        GridPane factionInfoPane = new GridPane();
+
         SplitPane infoPane = new SplitPane();
         infoPane.setOrientation(Orientation.VERTICAL);
-        infoPane.getItems().add(new Button("first"));
-        infoPane.getItems().add(new Button("second"));
+        infoPane.getItems().add(tileInfoPane);
+        infoPane.getItems().add(factionInfoPane);
 
         mainPane.getItems().add(leftPane);
         mainPane.getItems().add(infoPane);
@@ -59,6 +64,7 @@ public class UIManager extends Application {
         InputManager inputManager = new InputManager(this, gameManager);
         Map map = new Map(mapPane, inputManager);
         InformationHeader informationHeader = new InformationHeader(headerPane, inputManager);
+        tileInfoWindow = new TileInfoWindow(tileInfoPane, inputManager);
 
         mapPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -82,6 +88,10 @@ public class UIManager extends Application {
     public void closeSettings() {
         primaryStage.setScene(gameScene);
         primaryStage.show();
+    }
+
+    public void showTileInfo(TileInfo tileInfo) {
+        tileInfoWindow.update(tileInfo);
     }
 
     public static void main(String[] args)

@@ -22,12 +22,13 @@ public class InputManager {
         return (battleInfo != null);
     }
 
+    public boolean recruitUnits(int amount, int loc) {
+        return gameManager.recruitUnit(amount, loc);
+    }
+
     public boolean showTileInfo(int id) {
         TileInfo tileInfo = gameManager.getTileInfo(id);
-        /*
-        @TODO
-            Implement tile info window
-         */
+        uiManager.showTileInfo(tileInfo);
         return (tileInfo != null);
     }
 
