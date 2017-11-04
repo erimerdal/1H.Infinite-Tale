@@ -1,4 +1,4 @@
-package sample;
+package map;
 
 public class Tile {
     private int id;
