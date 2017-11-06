@@ -118,6 +118,9 @@ public class Map {
                 }
                 else if(event.getButton() == MouseButton.SECONDARY) {
                     MapTile last = mapTiles.get(lastClicked);
+                    System.out.println(last.isHidden());
+                    System.out.println(last.getNumOfUnits());
+                    System.out.println(last.isNeighbour(mapTile.getTileId()));
                     if(!last.isHidden() && last.getNumOfUnits() > 0 && last.isNeighbour(mapTile.getTileId())) {
                         System.out.println(last.getTileId() +  " sends soldiers to " + mapTile.getTileId());
                         inputManager.moveUnits(last.getTileId(), mapTile.getTileId());
@@ -166,12 +169,12 @@ public class Map {
 
             //Top-right nb
             index = i - mapWidth + 1;
-            if(index > -1 && i % (mapWidth * 2 - 1) != 9)
+            if(index > -1 && i % (mapWidth * 2 - 1) != 7)
                 nb.add(mapTiles.get(index));
 
             //Bottom-right nb
             index = i + mapWidth;
-            if(index < mapTiles.size() && i % (mapWidth * 2 - 1) != 9)
+            if(index < mapTiles.size() && i % (mapWidth * 2 - 1) != 7)
                 nb.add(mapTiles.get(index));
 
             //Bottom nb

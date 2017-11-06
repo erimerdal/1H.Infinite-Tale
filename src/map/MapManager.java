@@ -72,9 +72,23 @@ public class MapManager {
             Tile tile = tiles.get(i);
             if(tile.getOwner().getOwnerId() == factionId)
                 data.ownedTile.add(tile);
+            else if(tile.getTotalUnits() > 0 && tile.getTroops().get(0).getOwnerId() == factionId) {
+                data.open.add(tile);
+            }
             else {
-                ArrayList<Integer> ownerNbs = tile.getOwner().getNeighbours();
                 boolean visible = false;
+                ArrayList<Tile> nbs = getNeighbourTiles(tile.getId());
+                for(int j = 0; j < nbs.size(); j++) {
+                    if(nbs.get(j).getTotalUnits() > 0 && nbs.get(j).getTroops().get(0).getOwnerId() == factionId) {
+                        data.open.add(tile);
+                        visible = true;
+                        break;
+                    }
+                }
+                if(visible)
+                    continue;
+
+                ArrayList<Integer> ownerNbs = tile.getOwner().getNeighbours();
                 for(int j = 0; j < ownerNbs.size() && !visible; j++) {
                     if(provinces.get(ownerNbs.get(j)).getOwnerId() == factionId) {
                         data.open.add(tile);
@@ -213,21 +227,48 @@ public class MapManager {
         for (int i = 0; i < tiles.size(); i++)
             tiles.get(i).setUnitsMoved(false);
 
-        for (int i = 0; i < provinces.size(); i++)
-            provinces.get(i).setCurrentPop((int)(provinces.get(i).getCurrentPop() * 1.1));
+        for (int i = 0; i < provinces.size(); i++) {
+            Province prov = provinces.get(i);
+            prov.setCurrentPop((int) (prov.getCurrentPop() * 1.1));
+
+            ArrayList<Tile> tiles = getTilesByLocation(prov.getId());
+            int enemies = 0;
+            int enemyId = -1;
+            boolean isGarrisoned = false;
+            for(int j = 0; j < tiles.size(); j++) {
+                Tile tile = tiles.get(j);
+                if(tile.getTotalUnits() > 0) {
+                    if (tile.getTroops().get(0).getOwnerId() == prov.getOwnerId())
+                        isGarrisoned = true;
+                    else
+                        if(tile.getTroops().get(0).getOwnerId() != enemyId) {
+                            enemies++;
+                            enemyId = tile.getTroops().get(0).getOwnerId();
+                        }
+                }
+            }
+
+            if(enemies < 1) {
+                prov.setCurrentPop((int) (prov.getCurrentPop() * 1.1));
+                continue;
+            }
+
+            if(!isGarrisoned && enemies == 1)
+                prov.setOwnerId(enemyId);
+        }
     }
 
     private void setNeighbours() {
         for(int i = 0; i < provinces.size(); i++) {
             ArrayList<Integer> nb = new ArrayList<>();
-            int ownerId = provinces.get(i).getOwnerId();
+            int id = provinces.get(i).getId();
             ArrayList<Tile> owned = getTilesByLocation(provinces.get(i).getId());
             for(int j = 0; j < owned.size(); j++) {
                 ArrayList<Tile> nbTiles = getNeighbourTiles(owned.get(j).getId());
 
                 for(int k = 0; k < nbTiles.size(); k++) {
                     Province owner = nbTiles.get(k).getOwner();
-                    if(owner.getOwnerId() != ownerId && !nb.contains(owner.getId()))
+                    if(owner.getId() != id && !nb.contains(owner.getId()))
                         nb.add(owner.getId());
                 }
             }
