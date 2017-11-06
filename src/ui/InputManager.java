@@ -1,5 +1,6 @@
 package ui;
 
+import game.FactionData;
 import game.GameManager;
 import game.TileInfo;
 import map.BattleInfo;
@@ -31,8 +32,11 @@ public class InputManager {
 
     public boolean showTileInfo(int id) {
         TileInfo tileInfo = gameManager.getTileInfo(id);
+        if(tileInfo == null)
+            return false;
+        uiManager.showFactionInfo(gameManager.getFactionInfo(tileInfo.tile.getOwner().getOwnerId()));
         uiManager.showTileInfo(tileInfo);
-        return (tileInfo != null);
+        return true;
     }
 
     public void endTurn() {

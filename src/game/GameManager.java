@@ -51,7 +51,7 @@ public class GameManager {
 	}
 	
 	public FactionData getFactionInfo(int factionId) {
-		return factions.get(0).getFactionData(factionId);
+		return factions.get(factionId).getFactionData(0);
 	}
 	
 	public void endTurn() {
