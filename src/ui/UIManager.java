@@ -22,6 +22,7 @@ public class UIManager extends Application {
     private Stage primaryStage;
     private Scene settingsScene;
     private Scene gameScene;
+    private Scene mainMenuScene;
     private TileInfoWindow tileInfoWindow;
     private FactionInfoWindow factionInfoWindow;
     private InformationHeader informationHeader;
@@ -29,7 +30,7 @@ public class UIManager extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Infinite Tale Game");
 
         SplitPane mainPane = new SplitPane();
         mainPane.setOrientation(Orientation.HORIZONTAL);
@@ -60,6 +61,7 @@ public class UIManager extends Application {
         mainPane.getItems().add(infoPane);
 
         gameScene = new Scene(mainPane, 1280, 960);
+
         primaryStage.setScene(gameScene);
         primaryStage.show();
 
@@ -84,6 +86,18 @@ public class UIManager extends Application {
         GridPane settingsPane = new GridPane();
         SettingsManager settingsManager = new SettingsManager(settingsPane, inputManager);
         settingsScene = new Scene(settingsPane, 1280, 960);
+
+        //////////
+
+        GridPane mainMenuPane = new GridPane();
+        MainMenuManager mainMenuManager = new MainMenuManager(mainMenuPane, inputManager);
+        mainMenuScene = new Scene(mainMenuPane, 1280,960);
+
+        primaryStage.setScene(mainMenuScene);
+        primaryStage.show();
+
+
+        //////////
     }
 
     public void openSettings() {
@@ -92,6 +106,11 @@ public class UIManager extends Application {
     }
 
     public void closeSettings() {
+        primaryStage.setScene(gameScene);
+        primaryStage.show();
+    }
+
+    public void startGame() {
         primaryStage.setScene(gameScene);
         primaryStage.show();
     }

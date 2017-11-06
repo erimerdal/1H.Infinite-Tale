@@ -54,4 +54,8 @@ public class InputManager {
     public void closeSettings() {
         uiManager.closeSettings();
     }
+
+    public void startGame() {
+        uiManager.startGame();
+    }
 }
