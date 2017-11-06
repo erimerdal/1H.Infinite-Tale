@@ -58,4 +58,12 @@ public class InputManager {
     public void startGame() {
         uiManager.startGame();
     }
+
+    public void backMain() {
+        uiManager.backMain();
+    }
+
+    public void quit() {
+        uiManager.quit();
+    }
 }

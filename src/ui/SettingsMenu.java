@@ -15,7 +15,7 @@ import javafx.geometry.Pos;
 
 public class SettingsMenu{
     MusicManager musicManager = new MusicManager();
-    public String username;
+
     private GridPane settingsPane;
     private InputManager inputManager;
 
@@ -32,14 +32,13 @@ public class SettingsMenu{
         settingsPane.setVgap(5);
         settingsPane.setAlignment(Pos.CENTER);
 
-        settingsPane.add(new Label("Username:"), 0, 0);
-        TextField textField = new TextField();
-        settingsPane.add(textField, 1, 0);
-        username = textField.getText();
-
         settingsPane.add(muteButton,1,5);
 
-        settingsPane.setStyle("-fx-background-color: black");
+        //settingsPane.setStyle("-fx-background-color: black");
+        settingsPane.setStyle("-fx-background-image: url(\"settingsMenu.jpg\");-fx-background-repeat: stretch;   \n" +
+                "    -fx-background-size: 1300 1000;\n" +
+                "    -fx-background-position: center center;\n" +
+                "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
         muteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -57,7 +56,7 @@ public class SettingsMenu{
             }
         });
 
-        Button closeButton = new Button("Close Settings");
+        Button closeButton = new Button("Continue Game");
         closeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -67,5 +66,30 @@ public class SettingsMenu{
             }
         });
         settingsPane.add(closeButton,1,7);
+
+
+        Button backMainButton = new Button("Back to Main Menu");
+        backMainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.PRIMARY) {
+                    inputManager.backMain();
+                }
+            }
+        });
+        settingsPane.add(backMainButton,1,9);
+
+
+
+        Button quitGameButton = new Button("Quit Game");
+        quitGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.PRIMARY){
+                    inputManager.quit();
+                }
+            }
+        });
+        settingsPane.add(quitGameButton, 1, 11);
     }
 }

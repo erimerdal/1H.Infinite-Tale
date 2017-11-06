@@ -115,6 +115,15 @@ public class UIManager extends Application {
         primaryStage.show();
     }
 
+    public void quit() {
+        System.exit(0);
+    }
+
+    public void backMain(){
+        primaryStage.setScene(mainMenuScene);
+        primaryStage.show();
+    }
+
     public void showTileInfo(TileInfo tileInfo) {
         tileInfoWindow.update(tileInfo);
     }
