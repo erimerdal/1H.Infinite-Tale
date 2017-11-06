@@ -19,11 +19,14 @@ public class InputManager {
         @TODO
             Implement battle result window
          */
+        uiManager.updateHeader(gameManager.getFactionInfo(0));
         return (battleInfo != null);
     }
 
     public boolean recruitUnits(int amount, int loc) {
-        return gameManager.recruitUnit(amount, loc);
+        boolean retValue = gameManager.recruitUnit(amount, loc);
+        uiManager.updateHeader(gameManager.getFactionInfo(0));
+        return retValue;
     }
 
     public boolean showTileInfo(int id) {

@@ -1,5 +1,6 @@
 package ui;
 
+import game.FactionData;
 import game.GameManager;
 import game.MapWrapper;
 import game.TileInfo;
@@ -22,6 +23,7 @@ public class UIManager extends Application {
     private Scene settingsScene;
     private Scene gameScene;
     private TileInfoWindow tileInfoWindow;
+    private InformationHeader informationHeader;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -36,8 +38,8 @@ public class UIManager extends Application {
         mapPane.setMinSize(1024, 768);
 
         FlowPane headerPane = new FlowPane();
-        headerPane.setMinHeight(50);
-        headerPane.setMaxHeight(50);
+        headerPane.setMinHeight(35);
+        headerPane.setMaxHeight(35);
 
         SplitPane leftPane = new SplitPane();
         leftPane.setOrientation(Orientation.VERTICAL);
@@ -63,7 +65,7 @@ public class UIManager extends Application {
 
         InputManager inputManager = new InputManager(this, gameManager);
         Map map = new Map(mapPane, inputManager);
-        InformationHeader informationHeader = new InformationHeader(headerPane, inputManager);
+        informationHeader = new InformationHeader(headerPane, inputManager);
         tileInfoWindow = new TileInfoWindow(tileInfoPane, inputManager);
 
         mapPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -74,6 +76,7 @@ public class UIManager extends Application {
         });
 
         map.updateMap(gameManager.getPlayerMap());
+        updateHeader(gameManager.getFactionInfo(0));
 
         GridPane settingsPane = new GridPane();
         SettingsManager settingsManager = new SettingsManager(settingsPane, inputManager);
@@ -92,6 +95,10 @@ public class UIManager extends Application {
 
     public void showTileInfo(TileInfo tileInfo) {
         tileInfoWindow.update(tileInfo);
+    }
+
+    public void updateHeader(FactionData factionData) {
+        informationHeader.update(factionData);
     }
 
     public static void main(String[] args)
