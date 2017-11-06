@@ -58,6 +58,7 @@ public class GameManager {
 	    for(int i = 0; i < factions.size(); i++)
 	        factions.get(i).playTurn();
 
+	    mapManager.endTurn();
 		curTurn++;
 	}
 	

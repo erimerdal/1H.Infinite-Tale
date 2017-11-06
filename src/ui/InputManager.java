@@ -21,12 +21,14 @@ public class InputManager {
             Implement battle result window
          */
         uiManager.updateHeader(gameManager.getFactionInfo(0));
+        uiManager.updateMap(gameManager.getPlayerMap());
         return (battleInfo != null);
     }
 
     public boolean recruitUnits(int amount, int loc) {
         boolean retValue = gameManager.recruitUnit(amount, loc);
         uiManager.updateHeader(gameManager.getFactionInfo(0));
+        uiManager.updateMap(gameManager.getPlayerMap());
         return retValue;
     }
 
@@ -41,6 +43,8 @@ public class InputManager {
 
     public void endTurn() {
         gameManager.endTurn();
+        uiManager.updateHeader(gameManager.getFactionInfo(0));
+        uiManager.updateMap(gameManager.getPlayerMap());
     }
 
     public void openSettings() {

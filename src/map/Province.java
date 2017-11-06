@@ -61,28 +61,17 @@ public class Province {
 
     private boolean canRecruit(int count)
     {
-        if(getCurrentPop() + count > getPopLimit())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return (currentPop > count);
     }
 
     public boolean recruitUnits(int count)
     {
         if(canRecruit(count))
         {
-            int totalPop = count + getCurrentPop();
-            setCurrentPop(totalPop);
+            currentPop -= count;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public ArrayList<Integer> getNeighbours() {

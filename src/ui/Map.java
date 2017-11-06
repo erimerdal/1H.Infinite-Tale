@@ -55,6 +55,8 @@ public class Map {
 
             mapTiles.get(tile.getId()).setHidden(false);
             mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
+            if(tile.getTotalUnits() > 0)
+                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
         for(int i = 0; i < md.open.size(); i++) {
@@ -64,6 +66,8 @@ public class Map {
 
             mapTiles.get(tile.getId()).setHidden(false);
             mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
+            if(tile.getTotalUnits() > 0)
+                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
         for(int i = 0; i < md.closed.size(); i++) {
@@ -73,6 +77,8 @@ public class Map {
 
             mapTiles.get(tile.getId()).setHidden(true);
             mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
+            if(tile.getTotalUnits() > 0)
+                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
             mapTiles.get(tile.getId()).updateTile(tile);
         }
         drawMap();

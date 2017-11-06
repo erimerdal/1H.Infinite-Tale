@@ -28,7 +28,7 @@ public class MapManager {
                 Tile tile = new Tile(tiles.size(), prov);
                 int r = rand.nextInt(4);
                 if(r > 2)
-                    tile.addUnits((int)(rand.nextInt(50)));
+                    tile.addUnits((int)(rand.nextInt(200)));
                 tiles.add(tile);
             }
         }
@@ -43,7 +43,7 @@ public class MapManager {
                 Tile tile = new Tile(tiles.size(), prov);
                 int r = rand.nextInt(4);
                 if(r > 2)
-                    tile.addUnits((int)(rand.nextInt(50)));
+                    tile.addUnits((int)(rand.nextInt(200)));
                 tiles.add(tile);
             }
         }
@@ -58,7 +58,7 @@ public class MapManager {
                 Tile tile = new Tile(tiles.size(), prov);
                 int r = rand.nextInt(4);
                 if(r > 2)
-                    tile.addUnits((int)(rand.nextInt(50)));
+                    tile.addUnits((int)(rand.nextInt(200)));
                 tiles.add(tile);
             }
         }
@@ -118,26 +118,54 @@ public class MapManager {
         if(fromTile == null || toTile == null)
             return null;
 
-        ArrayList<GenericUnit> movingSoldiers = fromTile.getTroops();
-        ArrayList<GenericUnit> stayingSoldiers = toTile.getTroops();
-        fromTile.removeUnits(movingSoldiers.size());
-        toTile.addUnits(movingSoldiers.size());
-        /* If it is enemy tile we should start a war. */
-        BattleInfo battle = new BattleInfo();
-        if(toTile.getOwner() != fromTile.getOwner())
-        {
-            /*
-            @TODO
-                Implement battle
-             */
+        int att = fromTile.getTotalUnits();
+        int def = toTile.getTotalUnits();
+
+        if(att < 1 || fromTile.getUnitsMoved())
+            return null;
+
+        int attId = fromTile.getTroops().get(0).getOwnerId();
+
+        if (def < 1 || attId == toTile.getTroops().get(0).getOwnerId()) {
+            toTile.addUnits(att, attId);
+            toTile.setUnitsMoved(true);
+            fromTile.removeUnits(att);
+            return null;
         }
-        return battle;
+        /*
+        @TODO
+            Implement battle
+         */
+
+        // simple battle implementation
+        BattleInfo battleInfo = new BattleInfo();
+        battleInfo.attackerId = attId;
+        battleInfo.defenderId = toTile.getOwner().getOwnerId();
+        battleInfo.attackerArmy = att;
+        battleInfo.defenderArmy = def;
+        if(att > def) {
+            toTile.removeUnits(def);
+            toTile.addUnits(att - def, attId);
+            toTile.setUnitsMoved(true);
+            fromTile.removeUnits(att);
+            battleInfo.hasAttackerWon = true;
+        }
+        else {
+            fromTile.removeUnits(att);
+            toTile.removeUnits(def - att);
+        }
+
+
+        return battleInfo;
     }
 
     public boolean recruitUnits(Tile thatTile, int number)
     {
-        boolean resultRecruit = thatTile.addUnits(number);
-        return resultRecruit;
+        if(!thatTile.getOwner().recruitUnits(number))
+            return false;
+
+        thatTile.addUnits(number);
+        return true;
     }
 
     public ArrayList<Tile> getTilesByLocation(int provinceId)
@@ -179,6 +207,14 @@ public class MapManager {
 
     public Tile getTileById(int id) {
         return tiles.get(id);
+    }
+
+    public void endTurn() {
+        for (int i = 0; i < tiles.size(); i++)
+            tiles.get(i).setUnitsMoved(false);
+
+        for (int i = 0; i < provinces.size(); i++)
+            provinces.get(i).setCurrentPop((int)(provinces.get(i).getCurrentPop() * 1.1));
     }
 
     private void setNeighbours() {

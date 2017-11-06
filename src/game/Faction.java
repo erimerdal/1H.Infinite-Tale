@@ -33,7 +33,7 @@ public class Faction {
         this.isPlayer = isPlayer;
 
         color = MapColor.GRAY;
-        treasury = 0;
+        treasury = 5000;
         isDefeated = false;
         ownProv = new ArrayList<>();
         visibleProv = new ArrayList<>();
@@ -80,10 +80,13 @@ public class Faction {
     }
 
     public boolean recruit(int amount, int loc) {
-        /*
-        @TODO
-            Implementation
-         */
+        if(treasury < (new GenericUnit(0)).getCost() * amount)
+            return false;
+
+        if(!mapWrapper.recruitUnits(amount, loc))
+            return false;
+
+        treasury -= (new GenericUnit(0)).getCost() * amount;
         return true;
     }
 
@@ -142,16 +145,13 @@ public class Faction {
             inc += ownProv.get(i).getCurrentPop();
         }
 
-        return inc;
+        return inc + 1000;
     }
 
     private int getExpense() {
         int exp = 0;
         for(int i = 0; i < ownTile.size(); i++) {
-            ArrayList<GenericUnit> troops = ownTile.get(i).getTroops();
-            if(troops.size() > 0) {
-                exp += troops.size() * troops.get(0).getWage();
-            }
+            exp += ownTile.get(i).getTotalWage();
         }
 
         return exp;

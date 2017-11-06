@@ -25,6 +25,7 @@ public class UIManager extends Application {
     private TileInfoWindow tileInfoWindow;
     private FactionInfoWindow factionInfoWindow;
     private InformationHeader informationHeader;
+    private Map map;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -65,7 +66,7 @@ public class UIManager extends Application {
         GameManager gameManager = new GameManager();
 
         InputManager inputManager = new InputManager(this, gameManager);
-        Map map = new Map(mapPane, inputManager);
+        map = new Map(mapPane, inputManager);
         informationHeader = new InformationHeader(headerPane, inputManager);
         tileInfoWindow = new TileInfoWindow(tileInfoPane, inputManager);
         factionInfoWindow = new FactionInfoWindow(factionInfoPane, inputManager);
@@ -105,6 +106,10 @@ public class UIManager extends Application {
 
     public void updateHeader(FactionData factionData) {
         informationHeader.update(factionData);
+    }
+
+    public void updateMap(MapData mapData) {
+        map.updateMap(mapData);
     }
 
     public static void main(String[] args)

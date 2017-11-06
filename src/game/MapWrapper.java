@@ -17,11 +17,20 @@ public class MapWrapper {
     }
 
     public BattleInfo moveUnits(int from, int to) {
+        Tile owned = mapManager.getTileById(from);
+
+        if(owned.getTotalUnits() < 1 || owned.getTroops().get(0).getOwnerId() != factionId)
+            return null;
+
         return mapManager.moveUnits(from, to);
     }
 
-    public boolean recruitUnits(Tile loc, int amount) {
-        return mapManager.recruitUnits(loc, amount);
+    public boolean recruitUnits(int amount, int loc) {
+        Tile lctn = mapManager.getTileById(loc);
+        if(lctn.getOwner().getOwnerId() != factionId)
+            return false;
+
+        return mapManager.recruitUnits(lctn, amount);
     }
 
     public int calculateMoney() {

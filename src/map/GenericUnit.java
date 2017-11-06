@@ -1,8 +1,8 @@
 package map;
 
 public class GenericUnit {
-    private final int MAX_COUNT = 100;
-    private final int BASE_WAGE = 1;
+    public final int MAX_COUNT = 100;
+    public final int BASE_WAGE = 1;
     private int wage;
     private int cost;
     private boolean isBeingRecruited;
@@ -10,13 +10,14 @@ public class GenericUnit {
     private int ownerId;
     private int count;
 
-    public GenericUnit()
+    public GenericUnit(int count)
     {
         wage = 0;
-        cost = 0;
+        cost = 10;
         isBeingRecruited = false;
-        isMoved = false;
+        isMoved = true;
         ownerId = -1;
+        setCount(count);
     }
 
     public void setCost(int cost)

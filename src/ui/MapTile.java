@@ -23,6 +23,7 @@ public class MapTile extends Polygon {
     private boolean target;
     private ArrayList<MapTile> neighbours;
     private Label soldierLabel;
+    private MapColor soldierColor;
     public MapTile(int id, double side, double r3) {
         super(new double[]{
                 0, r3,
@@ -35,6 +36,7 @@ public class MapTile extends Polygon {
 
         tileId = id;
         tileColor = MapColor.RED;
+        soldierColor = tileColor;
         color = tileColor.getFogColor();
         numOfUnits = 0;
         hidden = true;
@@ -42,7 +44,8 @@ public class MapTile extends Polygon {
         target = false;
         neighbours = new ArrayList<>();
         soldierLabel = new Label("");
-        soldierLabel.setStyle("-fx-font-weight: bold;-fx-font-size: 12;");
+        soldierLabel.setStyle("-fx-font-weight: bold;-fx-font-size: 12;-fx-background-color: white;");
+        soldierLabel.setTextFill(soldierColor.getColor());
         /*
         @TODO
             terrain initialization
@@ -74,7 +77,7 @@ public class MapTile extends Polygon {
         if(tileId != tile.getId())
             return false;
 
-        setNumOfUnits(tile.getTroops().size());
+        setNumOfUnits(tile.getTotalUnits());
         setTerrain(tile.getTerrain());
 
         return true;
@@ -86,10 +89,15 @@ public class MapTile extends Polygon {
         setFill(color);
     }
 
+    public void setSoldierColor(MapColor c) {
+        soldierColor = c;
+        soldierLabel.setTextFill(soldierColor.getColor());
+    }
+
     public void setNumOfUnits(int n) {
         numOfUnits = n;
         if(n > 0 && !hidden)
-            soldierLabel.setText("S: " + n);
+            soldierLabel.setText(" S: " + n + " ");
         else
             soldierLabel.setText("");
         /*
