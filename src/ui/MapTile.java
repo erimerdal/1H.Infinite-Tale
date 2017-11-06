@@ -3,6 +3,8 @@ package ui;
 import game.MapColor;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 
 public class MapTile extends Polygon {
     private int tileId;
+    private int provId;
     private MapColor tileColor;
     private int numOfUnits;
     private boolean hidden;
@@ -21,9 +24,12 @@ public class MapTile extends Polygon {
     private Terrain terrain;
     private boolean selected;
     private boolean target;
+    private boolean provSelected;
     private ArrayList<MapTile> neighbours;
     private Label soldierLabel;
     private MapColor soldierColor;
+    private Polygon highlighter;
+
     public MapTile(int id, double side, double r3) {
         super(new double[]{
                 0, r3,
@@ -35,6 +41,7 @@ public class MapTile extends Polygon {
         });
 
         tileId = id;
+        provId = -1;
         tileColor = MapColor.RED;
         soldierColor = tileColor;
         color = tileColor.getFogColor();
@@ -42,10 +49,25 @@ public class MapTile extends Polygon {
         hidden = true;
         selected = false;
         target = false;
+        provSelected = false;
         neighbours = new ArrayList<>();
         soldierLabel = new Label("");
         soldierLabel.setStyle("-fx-font-weight: bold;-fx-font-size: 12;-fx-background-color: white;");
         soldierLabel.setTextFill(soldierColor.getColor());
+        highlighter = new Polygon();
+        highlighter.getPoints().setAll(getPoints());
+        highlighter.setScaleX(0.9);
+        highlighter.setScaleY(0.9);
+        highlighter.setFill(new Color(0,0,0,0));
+        highlighter.setStroke(new Color(0.2,1,0.2,0.8));
+        highlighter.setStrokeType(StrokeType.INSIDE);
+        highlighter.setStrokeWidth(0);
+        BoxBlur boxBlur = new BoxBlur();
+        boxBlur.setWidth(3);
+        boxBlur.setHeight(3);
+        boxBlur.setIterations(3);
+        highlighter.setEffect(boxBlur);
+        highlighter.setMouseTransparent(true);
         /*
         @TODO
             terrain initialization
@@ -73,12 +95,17 @@ public class MapTile extends Polygon {
         return tileId;
     }
 
+    public int getProvId() {
+        return provId;
+    }
+
     public boolean updateTile(Tile tile) {
         if(tileId != tile.getId())
             return false;
 
         setNumOfUnits(tile.getTotalUnits());
         setTerrain(tile.getTerrain());
+        provId = tile.getOwner().getId();
 
         return true;
     }
@@ -110,6 +137,19 @@ public class MapTile extends Polygon {
         return numOfUnits;
     }
 
+    public void setProvSelected(boolean selected) {
+        provSelected = selected;
+        Color col = (Color) getFill();
+        if(selected) {
+            setStroke(col.invert());
+            setStrokeWidth(3);
+        }
+        else {
+            setHidden(hidden);
+            setStrokeWidth(1);
+        }
+    }
+
     public void setHidden(boolean h) {
         hidden = h;
         if(hidden) {
@@ -139,12 +179,16 @@ public class MapTile extends Polygon {
     public void setSelected(boolean s) {
         selected = s;
         if(s) {
-            setStrokeWidth(5);
+            highlighter.setStrokeWidth(6);
+            highlighter.setStroke(new Color(1, 1, 1,0.8));
         }
-        else {
-            setStrokeWidth(1);
-        }
-        setHidden(hidden);
+        else
+            if(target) {
+                highlighter.setStrokeWidth(4);
+                highlighter.setStroke(new Color(0.2,1,0.2,0.8));
+            }
+            else
+                highlighter.setStrokeWidth(0);
 
         if(!hidden && numOfUnits > 0)
             for(int i = 0; i < neighbours.size(); i++) {
@@ -154,11 +198,17 @@ public class MapTile extends Polygon {
 
     public void setTarget(boolean target) {
         this.target = target;
-        if(target)
-            setStroke(Color.GREEN);
+        if(target) {
+            highlighter.setStrokeWidth(4);
+            highlighter.setStroke(new Color(0.2,1,0.2,0.8));
+        }
         else
             if(!selected)
-                setHidden(hidden);
+                highlighter.setStrokeWidth(0);
+            else {
+                highlighter.setStrokeWidth(6);
+                highlighter.setStroke(new Color(1, 1, 1,0.8));
+            }
     }
 
     public void setNeighbours(ArrayList<MapTile> neighbours) {
@@ -175,5 +225,20 @@ public class MapTile extends Polygon {
 
     public Label getSoldierLabel() {
         return soldierLabel;
+    }
+
+    public Polygon getHighlighter() {
+        return highlighter;
+    }
+
+    public void updateLabelLoc() {
+
+        soldierLabel.setTranslateX(getTranslateX());
+        soldierLabel.setTranslateY(getTranslateY());
+    }
+
+    public void updateHighlighterLoc() {
+        highlighter.setTranslateX(getTranslateX());
+        highlighter.setTranslateY(getTranslateY());
     }
 }

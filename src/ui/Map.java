@@ -3,9 +3,15 @@ package ui;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeType;
 import map.MapData;
 import game.FactionData;
 import game.MapColor;
@@ -20,6 +26,7 @@ public class Map {
     private StackPane mapPane;
     private ArrayList<MapTile> mapTiles;
     private ArrayList<Label> soldierLabels;
+    private ArrayList<Polygon> highlighters;
     private int mapWidth = 8;
     private int numOfTiles = 150;
     private int lastClicked = 0;
@@ -31,6 +38,7 @@ public class Map {
         mapData = new MapData();
         mapTiles = new ArrayList<>();
         soldierLabels = new ArrayList<>();
+        highlighters = new ArrayList<>();
         for(int i = 0; i < numOfTiles; i++) {
             mapTiles.add(createTile(i));
         }
@@ -96,6 +104,7 @@ public class Map {
     private void drawMap() {
         mapPane.getChildren().setAll(mapTiles);
         mapPane.getChildren().addAll(soldierLabels);
+        mapPane.getChildren().addAll(highlighters);
     }
 
     private MapTile createTile(int id) {
@@ -114,6 +123,7 @@ public class Map {
 
                     lastClicked = mapTile.getTileId();
                     mapTiles.get(lastClicked).setSelected(true);
+                    highlightProvince(mapTile.getProvId());
                     inputManager.showTileInfo(lastClicked);
                 }
                 else if(event.getButton() == MouseButton.SECONDARY) {
@@ -141,9 +151,10 @@ public class Map {
         }
         mapTile.setTranslateY(topLeftY + row * r3 + r3);
 
-        mapTile.getSoldierLabel().setTranslateX(mapTile.getTranslateX());
-        mapTile.getSoldierLabel().setTranslateY(mapTile.getTranslateY() - side / 2);
+        mapTile.updateLabelLoc();
+        mapTile.updateHighlighterLoc();
         soldierLabels.add(mapTile.getSoldierLabel());
+        highlighters.add(mapTile.getHighlighter());
 
         return mapTile;
     }
@@ -188,6 +199,15 @@ public class Map {
                 nb.add(mapTiles.get(index));
 
             mapTiles.get(i).setNeighbours(nb);
+        }
+    }
+
+    private void highlightProvince(int provId) {
+        for(int i = 0; i < mapTiles.size(); i++) {
+            if(mapTiles.get(i).getProvId() == provId)
+                mapTiles.get(i).setProvSelected(true);
+            else
+                mapTiles.get(i).setProvSelected(false);
         }
     }
 }

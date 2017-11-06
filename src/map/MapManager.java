@@ -18,49 +18,70 @@ public class MapManager {
          */
         Random rand = new Random();
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 15; i++) {
             Province prov = new Province(provinces.size());
             prov.setCurrentPop(100);
             prov.setOwnerId(0);
             provinces.add(prov);
-
-            for(int j = 0; j < 5; j++) {
-                Tile tile = new Tile(tiles.size(), prov);
-                int r = rand.nextInt(4);
-                if(r > 2)
-                    tile.addUnits((int)(rand.nextInt(200)));
-                tiles.add(tile);
-            }
         }
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 15; i++) {
             Province prov = new Province(provinces.size());
             prov.setCurrentPop(100);
             prov.setOwnerId(1);
             provinces.add(prov);
-
-            for(int j = 0; j < 5; j++) {
-                Tile tile = new Tile(tiles.size(), prov);
-                int r = rand.nextInt(4);
-                if(r > 2)
-                    tile.addUnits((int)(rand.nextInt(200)));
-                tiles.add(tile);
-            }
         }
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 8; i++) {
             Province prov = new Province(provinces.size());
             prov.setCurrentPop(100);
             prov.setOwnerId(2);
             provinces.add(prov);
+        }
 
-            for(int j = 0; j < 5; j++) {
-                Tile tile = new Tile(tiles.size(), prov);
-                int r = rand.nextInt(4);
-                if(r > 2)
-                    tile.addUnits((int)(rand.nextInt(200)));
-                tiles.add(tile);
-            }
+        for(int i = 0; i < 60; i++) {
+            Province prov;
+            int ind = i % (mapWidth * 2 - 1) % mapWidth;
+            if(ind == 7)
+                prov = provinces.get(14);
+            else
+                prov = provinces.get(ind + (int)(i / 30 ) * (mapWidth - 1));
+
+            Tile tile = new Tile(tiles.size(), prov);
+            int r = rand.nextInt(4);
+            if(r > 2)
+                tile.addUnits((int)(rand.nextInt(200)));
+            tiles.add(tile);
+        }
+
+        for(int i = 0; i < 60; i++) {
+            Province prov;
+            int ind = i % (mapWidth * 2 - 1) % mapWidth;
+            if(ind == 7)
+                prov = provinces.get(29);
+            else
+                prov = provinces.get(ind + (int)(i / 30 ) * (mapWidth - 1) + 15);
+
+            Tile tile = new Tile(tiles.size(), prov);
+            int r = rand.nextInt(4);
+            if(r > 2)
+                tile.addUnits((int)(rand.nextInt(200)));
+            tiles.add(tile);
+        }
+
+        for(int i = 0; i < 30; i++) {
+            Province prov;
+            int ind = i % (mapWidth * 2 - 1) % mapWidth;
+            if(ind == 7)
+                prov = provinces.get(37);
+            else
+                prov = provinces.get(ind + (int)(i / 30 ) * (mapWidth - 1) + 30);
+
+            Tile tile = new Tile(tiles.size(), prov);
+            int r = rand.nextInt(4);
+            if(r > 2)
+                tile.addUnits((int)(rand.nextInt(200)));
+            tiles.add(tile);
         }
 
         setNeighbours();
