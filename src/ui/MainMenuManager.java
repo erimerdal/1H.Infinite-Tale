@@ -18,4 +18,10 @@ public class MainMenuManager {
         return userName;
     }
 
+    public MusicManager returnMusicManager()
+    {
+        return menu.musicManager;
+    }
+
+
 }

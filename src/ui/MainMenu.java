@@ -20,6 +20,7 @@ public class MainMenu{
         this.mainMenuPane = mainMenuPane;
         this.inputManager = inputManager;
 
+        musicManager.playMusic();
         String playGame = "NEW GAME";
 
         Button playGameButton = new Button(playGame);

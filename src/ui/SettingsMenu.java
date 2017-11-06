@@ -46,12 +46,14 @@ public class SettingsMenu{
                 if(muteButton.getText()=="Mute")
                 {
                     muteButton.setText(noVolume);
+                    musicManager.mute();
                 }
                 else
                 {
                     muteButton.setText(volume);
+                    musicManager.unmute();
                 }
-                musicManager.setMuted();
+
 
             }
         });
