@@ -27,6 +27,7 @@ public class UIManager extends Application {
     private FactionInfoWindow factionInfoWindow;
     private InformationHeader informationHeader;
     private Map map;
+    private SettingsManager settingsManager;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -84,7 +85,7 @@ public class UIManager extends Application {
         updateHeader(gameManager.getFactionInfo(0));
 
         GridPane settingsPane = new GridPane();
-        SettingsManager settingsManager = new SettingsManager(settingsPane, inputManager);
+        settingsManager = new SettingsManager(settingsPane, inputManager);
         settingsScene = new Scene(settingsPane, 1280, 960);
 
         //////////
@@ -122,6 +123,10 @@ public class UIManager extends Application {
     public void backMain(){
         primaryStage.setScene(mainMenuScene);
         primaryStage.show();
+    }
+
+    public void setMusicMute(boolean mute) {
+        settingsManager.setMusicMute(mute);
     }
 
     public void showTileInfo(TileInfo tileInfo) {

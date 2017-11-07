@@ -12,14 +12,15 @@ public class MusicManager{
     MediaPlayer mediaPlayer;
     boolean muted = false;
 
+    public MusicManager() {
+        Media hit = new Media(Paths.get("src/track.mp3").toUri().toString());
+        mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.play();
+    }
 
     public void playMusic()
     {
         if(!muted) {
-            Media hit = new Media(Paths.get("src/track.mp3").toUri().toString());
-            mediaPlayer = new MediaPlayer(hit);
-
-
             mediaPlayer.play();
         }
     }

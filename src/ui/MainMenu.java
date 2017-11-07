@@ -11,7 +11,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class MainMenu{
-    MusicManager musicManager = new MusicManager();
     public String username;
     private GridPane mainMenuPane;
     private InputManager inputManager;
@@ -19,8 +18,6 @@ public class MainMenu{
     public MainMenu(GridPane mainMenuPane, InputManager inputManager) {
         this.mainMenuPane = mainMenuPane;
         this.inputManager = inputManager;
-
-        musicManager.playMusic();
         String playGame = "NEW GAME";
 
         Button playGameButton = new Button(playGame);

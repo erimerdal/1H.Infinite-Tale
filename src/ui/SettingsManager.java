@@ -10,5 +10,7 @@ public class SettingsManager {
         menu = new SettingsMenu(settingsPane, inputManager);
     }
 
-
+    public void setMusicMute(boolean mute) {
+        menu.setMusicMute(mute);
+    }
 }

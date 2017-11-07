@@ -47,6 +47,10 @@ public class InputManager {
         uiManager.updateMap(gameManager.getPlayerMap());
     }
 
+    public void setMusicMute(boolean mute) {
+        uiManager.setMusicMute(mute);
+    }
+
     public void openSettings() {
         uiManager.openSettings();
     }

@@ -94,4 +94,11 @@ public class SettingsMenu{
         });
         settingsPane.add(quitGameButton, 1, 11);
     }
+
+    public void setMusicMute(boolean mute) {
+        if(mute)
+            musicManager.mute();
+        else
+            musicManager.unmute();
+    }
 }
