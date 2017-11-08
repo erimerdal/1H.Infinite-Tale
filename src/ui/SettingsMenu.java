@@ -23,9 +23,8 @@ public class SettingsMenu{
         this.settingsPane = settingsPane;
         this.inputManager = inputManager;
 
-        String volume = "Mute";
-        String noVolume = "Unmute";
-        Button muteButton = new Button(volume);
+      
+        Button muteButton = new Button("Mute");
 
         settingsPane.setPadding(new Insets(15));
         settingsPane.setHgap(5);
@@ -45,12 +44,12 @@ public class SettingsMenu{
 
                 if(muteButton.getText()=="Mute")
                 {
-                    muteButton.setText(noVolume);
+                    muteButton.setText("Unmute");
                     musicManager.mute();
                 }
                 else
                 {
-                    muteButton.setText(volume);
+                    muteButton.setText("Mute");
                     musicManager.unmute();
                 }
 
