@@ -105,6 +105,11 @@ public class Map {
         mapPane.getChildren().setAll(mapTiles);
         mapPane.getChildren().addAll(soldierLabels);
         mapPane.getChildren().addAll(highlighters);
+        //
+        mapPane.setStyle("-fx-background-image: url(\"mapBackground.jpg\");-fx-background-repeat: stretch;   \n" +
+                "    -fx-background-size: 1300 1000;\n" +
+                "    -fx-background-position: center center;\n" +
+                "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
     }
 
     private MapTile createTile(int id) {

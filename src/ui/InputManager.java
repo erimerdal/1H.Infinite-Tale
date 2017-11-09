@@ -63,6 +63,10 @@ public class InputManager {
         uiManager.startGame();
     }
 
+    public void returnMain(){
+        uiManager.backMain();
+    }
+
     public void backMain() {
         uiManager.backMain();
     }
