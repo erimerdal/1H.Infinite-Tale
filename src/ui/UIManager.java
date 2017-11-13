@@ -21,6 +21,7 @@ import java.util.Set;
 public class UIManager extends Application {
     private Stage primaryStage;
     private Scene settingsScene;
+    private Scene loreScene;
     private Scene gameScene;
     private Scene mainMenuScene;
     private TileInfoWindow tileInfoWindow;
@@ -28,6 +29,7 @@ public class UIManager extends Application {
     private InformationHeader informationHeader;
     private Map map;
     private SettingsManager settingsManager;
+    private LoreManager loreManager;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -97,6 +99,9 @@ public class UIManager extends Application {
         primaryStage.setScene(mainMenuScene);
         primaryStage.show();
 
+        GridPane lorePane = new GridPane();
+        LoreManager loreManager = new LoreManager(lorePane, inputManager);
+        loreScene = new Scene(lorePane, 1280,960);
 
         //////////
     }
@@ -113,6 +118,11 @@ public class UIManager extends Application {
 
     public void startGame() {
         primaryStage.setScene(gameScene);
+        primaryStage.show();
+    }
+
+    public void openLore() {
+        primaryStage.setScene(loreScene);
         primaryStage.show();
     }
 

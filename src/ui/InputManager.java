@@ -67,6 +67,10 @@ public class InputManager {
         uiManager.backMain();
     }
 
+    public void openLore(){
+        uiManager.openLore();
+    }
+
     public void backMain() {
         uiManager.backMain();
     }

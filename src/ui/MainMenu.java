@@ -59,6 +59,18 @@ public class MainMenu{
 
         mainMenuPane.add(goSettingsButton,1,7);
 
+        Button loreMenuButton = new Button("LORE");
+        loreMenuButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.PRIMARY) {
+                    inputManager.openLore();
+                }
+            }
+        });
+
+        mainMenuPane.add(loreMenuButton,1,9);
+
+
         Button quitButton = new Button("QUIT");
         quitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -69,6 +81,6 @@ public class MainMenu{
             }
         });
 
-        mainMenuPane.add(quitButton, 1, 9);
+        mainMenuPane.add(quitButton, 1, 11);
     }
 }

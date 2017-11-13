@@ -11,26 +11,26 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class LoreMenu{
-    private GridPane mainMenuPane;
+    private GridPane loreMenuPane;
     private InputManager inputManager;
 
-    public LoreMenu(GridPane mainMenuPane, InputManager inputManager) {
-        this.mainMenuPane = mainMenuPane;
+    public LoreMenu(GridPane loreMenuPane, InputManager inputManager) {
+        this.loreMenuPane = loreMenuPane;
         this.inputManager = inputManager;
 
 
-        mainMenuPane.setPadding(new Insets(15));
-        mainMenuPane.setHgap(5);
-        mainMenuPane.setVgap(5);
-        mainMenuPane.setAlignment(Pos.BOTTOM_CENTER);
+        loreMenuPane.setPadding(new Insets(15));
+        loreMenuPane.setHgap(5);
+        loreMenuPane.setVgap(5);
+        loreMenuPane.setAlignment(Pos.BOTTOM_CENTER);
 
         //mainMenuPane.setStyle("-fx-background-color: black");
-        mainMenuPane.setStyle("-fx-background-image: url(\"mainMenu.jpg\");-fx-background-repeat: stretch;   \n" +
+        loreMenuPane.setStyle("-fx-background-image: url(\"loreMenu.jpg\");-fx-background-repeat: stretch;   \n" +
                 "    -fx-background-size: 1300 1000;\n" +
                 "    -fx-background-position: center center;\n" +
                 "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
 
-        Button returnMainMenuButton = new Button("QUIT");
+        Button returnMainMenuButton = new Button("RETURN");
         returnMainMenuButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -40,6 +40,6 @@ public class LoreMenu{
             }
         });
 
-        mainMenuPane.add(returnMainMenuButton, 1, 9);
+        loreMenuPane.add(returnMainMenuButton, 1, 9);
     }
 }
