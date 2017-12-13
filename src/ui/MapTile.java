@@ -11,6 +11,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 import map.Terrain;
 import map.Tile;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
@@ -123,8 +125,11 @@ public class MapTile extends Polygon {
 
     public void setNumOfUnits(int n) {
         numOfUnits = n;
-        if(n > 0 && !hidden)
+        if(n > 0 && !hidden) {
             soldierLabel.setText(" S: " + n + " ");
+            // Tried to add soldier picture but weirdly label went şeffaf instead of picture.
+            //soldierLabel.setStyle("-fx-background-image: url(\"/Users/erimerdal/Desktop/TerminalKanser/src/soldiers.jpg\");");
+        }
         else
             soldierLabel.setText("");
         /*

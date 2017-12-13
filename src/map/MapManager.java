@@ -170,6 +170,26 @@ public class MapManager {
         /*
         @TODO
             Implement battle
+            BattleInfo battleInfo = new BattleInfo();
+            battleInfo.attackerId = attId;
+            battleInfo.defenderId = toTile.getOwner().getOwnerId();
+            battleInfo.attackerArmy = att;
+            battleInfo.defenderArmy = def;
+            // Now that we have set up armies, we should start war.
+            // Two sides will be hitting each other depending on their bonuses.
+            int temp = 0;
+            while(battleInfo.defenderArmy > 5 && battleInfo.attackerArmy > 5)
+            {
+                temp =  = battleInfo.defenderArmy;
+                if(battleInfo.defenderArmy < 5)
+                {
+                    return battleInfo.hasAttackerWon = true;
+                }
+                else
+                {
+                    return battleInfo.hasAttackerWon = false;
+                }
+            }
          */
 
         // simple battle implementation
