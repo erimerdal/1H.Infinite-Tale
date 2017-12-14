@@ -16,30 +16,30 @@ public class TerrainType {
         {
             if(hills)
             {
-                return -10;
+                return -3;
             }
             else if(flat)
             {
-                return 10;
+                return 3;
             }
             else
             {
-                return -15;
+                return -4;
             }
         }
         public int getDefenseBonus()
         {
             if(hills)
             {
-                return 10;
+                return 3;
             }
             else if(flat)
             {
-                return -10;
+                return -3;
             }
             else
             {
-                return 15;
+                return 4;
             }
         }
     }

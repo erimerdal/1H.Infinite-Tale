@@ -11,8 +11,8 @@ public class Tile {
     public Tile(int id, Province owner)
     {
         this.id = id;
-        WeatherType weatherType = new WeatherType(false,false,false);
-        TerrainType terrainType = new TerrainType( false,false,false);
+        WeatherType weatherType = new WeatherType(true,false,false);
+        TerrainType terrainType = new TerrainType( true,false,false);
         terrain = new Terrain(weatherType, terrainType);
         troops = new ArrayList<>();
         this.owner = owner;

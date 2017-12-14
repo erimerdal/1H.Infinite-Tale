@@ -167,31 +167,81 @@ public class MapManager {
             fromTile.removeUnits(att);
             return null;
         }
-        /*
-        @TODO
-            Implement battle
+
             BattleInfo battleInfo = new BattleInfo();
             battleInfo.attackerId = attId;
             battleInfo.defenderId = toTile.getOwner().getOwnerId();
             battleInfo.attackerArmy = att;
             battleInfo.defenderArmy = def;
+            battleInfo.attackerTile = fromTile;
+            battleInfo.defenderTile = toTile;
             // Now that we have set up armies, we should start war.
             // Two sides will be hitting each other depending on their bonuses.
-            int temp = 0;
-            while(battleInfo.defenderArmy > 5 && battleInfo.attackerArmy > 5)
+            // Here we will calculate attack and defense bonuses.
+            int attBonus = battleInfo.attackerTile.getTerrain().getTotalAttBonus();
+            System.out.println("Attack Bonus: " + attBonus);
+            int defBonus = battleInfo.attackerTile.getTerrain().getTotalDefBonus();
+            System.out.println("Defense Bonus: " + defBonus);
+
+            while(battleInfo.defenderArmy > 10 && battleInfo.attackerArmy > 10)
             {
-                temp =  = battleInfo.defenderArmy;
-                if(battleInfo.defenderArmy < 5)
+
+                // Calculate the random number with bonuses of defender.
+                Random aRandom = new Random();
+                int defRandom = aRandom.nextInt(100 + defBonus) + defBonus;
+                // Calculate attack bonus similarly.
+                int attRandom = aRandom.nextInt(100 + attBonus) + attBonus;
+
+                int defHit = (battleInfo.defenderArmy * defRandom) / 100;
+                System.out.println("Defense Hit: " + defHit);
+                if(defHit < 5)
                 {
-                    return battleInfo.hasAttackerWon = true;
+                    defHit = 5;
+                }
+                if(defHit > battleInfo.attackerArmy)
+                {
+                    defHit = battleInfo.attackerArmy;
+                }
+
+                int attHit = (battleInfo.attackerArmy * attRandom) / 100;
+                System.out.println("Attack Hit: " + attHit);
+                if(attHit < 5)
+                {
+                    attHit = 5;
+                }
+                if(attHit > battleInfo.defenderArmy)
+                {
+                    attHit = battleInfo.defenderArmy;
+                }
+
+                fromTile.removeUnits(defHit);
+                toTile.removeUnits(attHit);
+                battleInfo.attackerArmy = fromTile.getTotalUnits();
+                battleInfo.defenderArmy = toTile.getTotalUnits();
+                System.out.println("Defense Army Count: " + battleInfo.defenderArmy);
+                System.out.println("Attacker Army Count: " + battleInfo.attackerArmy);
+                if(battleInfo.defenderArmy < 10)
+                {
+                    toTile.removeUnits(battleInfo.defenderArmy);
+                    toTile.addUnits(battleInfo.attackerArmy, attId);
+                    fromTile.removeUnits(battleInfo.attackerArmy);
+                    toTile.setUnitsMoved(true);
+                    battleInfo.hasAttackerWon = true;
+                }
+                else if(battleInfo.attackerArmy < 10)
+                {
+                    fromTile.removeUnits(battleInfo.attackerArmy);
+                    battleInfo.hasAttackerWon = false;
                 }
                 else
                 {
-                    return battleInfo.hasAttackerWon = false;
+
                 }
             }
-         */
 
+        return battleInfo;
+
+        /**
         // simple battle implementation
         BattleInfo battleInfo = new BattleInfo();
         battleInfo.attackerId = attId;
@@ -209,9 +259,9 @@ public class MapManager {
             fromTile.removeUnits(att);
             toTile.removeUnits(def - att);
         }
+        */
 
 
-        return battleInfo;
     }
 
     public boolean recruitUnits(Tile thatTile, int number)

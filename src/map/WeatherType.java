@@ -19,30 +19,30 @@ public class WeatherType {
     {
         if(cold)
         {
-            return -15;
+            return -3;
         }
         else if(hot)
         {
-            return 15;
+            return 3;
         }
         else
         {
-            return 0;
+            return 2;
         }
     }
     public int getDefenseBonus()
     {
         if(cold)
         {
-            return 15;
+            return 3;
         }
         else if(hot)
         {
-            return -15;
+            return -3;
         }
         else
         {
-            return 0;
+            return -2;
         }
     }
 }

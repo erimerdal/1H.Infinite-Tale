@@ -8,6 +8,8 @@ public class BattleInfo {
     public int attackerArmy;
     public int defenderArmy;
     public boolean hasAttackerWon;
+    public Tile attackerTile;
+    public Tile defenderTile;
 
     public BattleInfo()
     {
@@ -15,6 +17,8 @@ public class BattleInfo {
         defenderId = 0;
         attackerArmy = 0;
         defenderArmy = 0;
+        attackerTile = null;
+        defenderTile = null;
         hasAttackerWon = false;
     }
 }
