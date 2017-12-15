@@ -33,6 +33,7 @@ public class InformationHeader {
         totalProv = new Label("Provinces : 0");
         totalUnit = new Label("Units : 0");
 
+
         final Pane spacer = new Pane();
         HBox.setHgrow(
                 spacer,
@@ -76,6 +77,7 @@ public class InformationHeader {
         );
         toolBar.setMinWidth(header.getWidth());
         header.getChildren().add(toolBar);
+
     }
 
     public void update(FactionData factionData) {

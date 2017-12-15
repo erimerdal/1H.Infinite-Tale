@@ -77,10 +77,77 @@ public class TileInfoWindow {
         provinceId.setText(tileInfo.tile.getOwner().getId() + "");
         tileId.setText(tileInfo.tile.getId() + "");
         if(tileInfo.isVisible)
+        {
             soldiers.setText(tileInfo.tile.getTroops().size() + "");
+            if(tileInfo.owner.equals("Player")) {
+                if (tileInfo.tile.getTroops().size() < 1) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"0poptown.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else if (tileInfo.tile.getTroops().size() < 2) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"1poptown.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else if (tileInfo.tile.getTroops().size() < 3) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"2poptown.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else if (tileInfo.tile.getTroops().size() < 4) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"3poptown.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"bigpoptown.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                }
+
+            }
+            else
+            {
+                if (tileInfo.tile.getTroops().size() < 1) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"0poptownenemy.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else if (tileInfo.tile.getTroops().size() < 2) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"1poptownenemy.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else if (tileInfo.tile.getTroops().size() < 3) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"2poptownenemy.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else if (tileInfo.tile.getTroops().size() < 4) {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"3poptownenemy.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                } else {
+                    tileInfoPane.setStyle("-fx-background-image: url(\"bigpoptownenemy.jpg\");-fx-background-repeat: stretch;   \n" +
+                            "    -fx-background-size: 200 100;\n" +
+                            "    -fx-background-position: center center;\n" +
+                            "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+                }
+            }
+        }
+
         else
+        {
             soldiers.setText("??");
 
+            tileInfoPane.setStyle("-fx-background-image: url(\"unknownpoptown.jpg\");-fx-background-repeat: stretch;   \n" +
+                    "    -fx-background-size: 200 100;\n" +
+                    "    -fx-background-position: center center;\n" +
+                    "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+        }
         if(tileInfo.tile.getOwner().getOwnerId() == 0)
             recruitButton.setDisable(false);
         else

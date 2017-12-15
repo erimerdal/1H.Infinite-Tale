@@ -52,6 +52,8 @@ public class FactionInfoWindow {
             income.setText(factionData.income + "");
             expense.setText(factionData.expense + "");
             soldiers.setText(factionData.totalUnits + "");
+
+
         }
         else {
             income.setText("?");

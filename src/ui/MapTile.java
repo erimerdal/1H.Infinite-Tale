@@ -121,6 +121,7 @@ public class MapTile extends Polygon {
     public void setSoldierColor(MapColor c) {
         soldierColor = c;
         soldierLabel.setTextFill(soldierColor.getColor());
+
     }
 
     public void setNumOfUnits(int n) {
