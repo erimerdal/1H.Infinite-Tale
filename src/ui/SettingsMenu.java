@@ -33,8 +33,7 @@ public class SettingsMenu{
         settingsPane.setAlignment(Pos.CENTER);
 
         settingsPane.add(muteButton,1,5);
-
-        //settingsPane.setStyle("-fx-background-color: black");
+        
         settingsPane.setStyle("-fx-background-image: url(\"settingsMenu.jpg\");-fx-background-repeat: stretch;   \n" +
                 "    -fx-background-size: 1300 1000;\n" +
                 "    -fx-background-position: center center;\n" +
