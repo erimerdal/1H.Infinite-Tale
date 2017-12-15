@@ -24,12 +24,14 @@ public class UIManager extends Application {
     private Scene loreScene;
     private Scene gameScene;
     private Scene mainMenuScene;
+    private Scene creditsScene;
     private TileInfoWindow tileInfoWindow;
     private FactionInfoWindow factionInfoWindow;
     private InformationHeader informationHeader;
     private Map map;
     private SettingsManager settingsManager;
     private LoreManager loreManager;
+    private CreditsManager creditsManager;
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.primaryStage = primaryStage;
@@ -100,8 +102,12 @@ public class UIManager extends Application {
         primaryStage.show();
 
         GridPane lorePane = new GridPane();
-        LoreManager loreManager = new LoreManager(lorePane, inputManager);
+        loreManager = new LoreManager(lorePane, inputManager);
         loreScene = new Scene(lorePane, 1280,960);
+
+        GridPane creditsPane = new GridPane();
+        creditsManager = new CreditsManager(creditsPane, inputManager);
+        creditsScene = new Scene(creditsPane, 1280,960);
 
         //////////
     }
@@ -123,6 +129,11 @@ public class UIManager extends Application {
 
     public void openLore() {
         primaryStage.setScene(loreScene);
+        primaryStage.show();
+    }
+
+    public void openCredits() {
+        primaryStage.setScene(creditsScene);
         primaryStage.show();
     }
 

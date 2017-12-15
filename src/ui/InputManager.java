@@ -70,6 +70,9 @@ public class InputManager {
     public void openLore(){
         uiManager.openLore();
     }
+    public void openCredits(){
+        uiManager.openCredits();
+    }
 
     public void backMain() {
         uiManager.backMain();

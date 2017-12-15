@@ -71,6 +71,19 @@ public class MainMenu{
         mainMenuPane.add(loreMenuButton,1,9);
 
 
+        Button creditsButton = new Button("CREDITS");
+        creditsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.PRIMARY){
+                    inputManager.openCredits();
+                }
+            }
+        });
+
+        mainMenuPane.add(creditsButton, 1, 11);
+
+
         Button quitButton = new Button("QUIT");
         quitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -81,6 +94,6 @@ public class MainMenu{
             }
         });
 
-        mainMenuPane.add(quitButton, 1, 11);
+        mainMenuPane.add(quitButton, 1, 13);
     }
 }
