@@ -89,5 +89,6 @@ public class InformationHeader {
         income.setText("Income : " + (info.income - info.expense));
         totalProv.setText("Provinces : " + info.totalProvinces);
         totalUnit.setText("Units : " + info.totalUnits);
+
     }
 }

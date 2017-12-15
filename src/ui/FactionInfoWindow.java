@@ -53,12 +53,53 @@ public class FactionInfoWindow {
             expense.setText(factionData.expense + "");
             soldiers.setText(factionData.totalUnits + "");
 
+            if (factionData.income < 10000)
+            {
+                factionInfoPane.setStyle("-fx-background-image: url(\"treasure0.jpg\");-fx-background-repeat: stretch;   \n" +
+                        "    -fx-background-size: 200 100;\n" +
+                        "    -fx-background-position: center center;\n" +
+                        "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+            }
+            else if (factionData.income < 20000)
+            {
+                factionInfoPane.setStyle("-fx-background-image: url(\"treasure1.jpg\");-fx-background-repeat: stretch;   \n" +
+                        "    -fx-background-size: 200 100;\n" +
+                        "    -fx-background-position: center center;\n" +
+                        "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+            }
+            else if (factionData.income < 40000)
+            {
+                factionInfoPane.setStyle("-fx-background-image: url(\"treasure2.jpg\");-fx-background-repeat: stretch;   \n" +
+                        "    -fx-background-size: 200 100;\n" +
+                        "    -fx-background-position: center center;\n" +
+                        "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+            }
+            else if (factionData.income < 100000)
+            {
+                factionInfoPane.setStyle("-fx-background-image: url(\"treasure3.jpg\");-fx-background-repeat: stretch;   \n" +
+                        "    -fx-background-size: 200 100;\n" +
+                        "    -fx-background-position: center center;\n" +
+                        "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+            }
+            else
+            {
+                factionInfoPane.setStyle("-fx-background-image: url(\"bigtreasure.jpg\");-fx-background-repeat: stretch;   \n" +
+                        "    -fx-background-size: 200 100;\n" +
+                        "    -fx-background-position: center center;\n" +
+                        "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
+            }
+
+
 
         }
         else {
             income.setText("?");
             expense.setText("?");
             soldiers.setText("??");
+            factionInfoPane.setStyle("-fx-background-image: url(\"unknowntreasure.jpg\");-fx-background-repeat: stretch;   \n" +
+                    "    -fx-background-size: 200 100;\n" +
+                    "    -fx-background-position: center center;\n" +
+                    "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
         }
     }
 }
