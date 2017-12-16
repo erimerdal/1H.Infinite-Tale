@@ -19,7 +19,7 @@ public class InformationHeader {
     private Button endTurnButton;
     private Button settingsButton;
     private Label treasury;
-    private Label income;
+    private Label netIncome;
     private Label totalProv;
     private Label totalUnit;
 
@@ -29,7 +29,7 @@ public class InformationHeader {
         info = new FactionData();
 
         treasury = new Label("Treasury : 0");
-        income = new Label("Income : 0");
+        netIncome = new Label("Net Income : 0");
         totalProv = new Label("Provinces : 0");
         totalUnit = new Label("Units : 0");
 
@@ -69,7 +69,7 @@ public class InformationHeader {
                 settingsButton,
                 spacer,
                 treasury,
-                income,
+                netIncome,
                 totalProv,
                 totalUnit,
                 spacer2,
@@ -86,7 +86,7 @@ public class InformationHeader {
 
         info = factionData;
         treasury.setText("Treasury : " + info.treasury);
-        income.setText("Income : " + (info.income - info.expense));
+        netIncome.setText("Net Income : " + (info.income - info.expense));
         totalProv.setText("Provinces : " + info.totalProvinces);
         totalUnit.setText("Units : " + info.totalUnits);
 

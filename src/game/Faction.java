@@ -8,6 +8,10 @@ import map.Tile;
 import java.util.*;
 
 public class Faction {
+    // Same for the AI and the player
+    private static final int MAX_INCOME = 50000;
+    private static final int MAX_TREASURY = 500000;
+
     private int id;
     private String name;
     private boolean isPlayer;
@@ -73,6 +77,9 @@ public class Faction {
             return;
 
         treasury += getIncome() - getExpense();
+
+        if (treasury > MAX_TREASURY)
+            treasury = MAX_TREASURY;
 
         if(isPlayer)
             return;
@@ -290,15 +297,22 @@ public class Faction {
 
     private int getIncome() {
         int inc = 0;
+
         for(int i = 0; i < ownProv.size(); i++) {
             inc += ownProv.get(i).getCurrentPop();
         }
 
-        return inc + 1000;
+        inc += 1000;
+
+        if (inc > MAX_INCOME)
+            inc = MAX_INCOME;
+
+        return inc;
     }
 
     private int getExpense() {
         int exp = 0;
+
         for(int i = 0; i < ownTile.size(); i++) {
             exp += ownTile.get(i).getTotalWage();
         }
@@ -308,6 +322,7 @@ public class Faction {
 
     private int getTotalUnits() {
         int sum = 0;
+
         for(int i = 0; i < ownTile.size(); i++) {
             sum += ownTile.get(i).getTotalUnits();
         }
