@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class GameManager {
 	final public int FACS = 3;
+	private static GameManager singleton = null;
 	
 	public int curTurn;
 
@@ -16,8 +17,8 @@ public class GameManager {
 	
 	private MapManager mapManager;
 	
-	public GameManager() {
-	    mapManager = new MapManager();
+	private GameManager() {
+	    mapManager = MapManager.getMapManager();
 	    curTurn = 0;
 	    mapWrappers = new ArrayList<>();
 	    factions = new ArrayList<>();
@@ -38,6 +39,13 @@ public class GameManager {
 		factions.get(0).setColor(MapColor.RED);
         factions.get(1).setColor(MapColor.BLUE);
         factions.get(2).setColor(MapColor.PURPLE);
+	}
+
+	public static GameManager getGameManager() {
+		if(singleton == null)
+			singleton = new GameManager();
+
+		return singleton;
 	}
 	
 	public MapData getPlayerMap() {

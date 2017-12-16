@@ -68,9 +68,9 @@ public class UIManager extends Application {
         primaryStage.setMinHeight(960);
         primaryStage.show();
 
-        GameManager gameManager = new GameManager();
+        GameManager gameManager = GameManager.getGameManager();
 
-        InputManager inputManager = new InputManager(this, gameManager);
+        InputManager inputManager = InputManager.getInputManager(this, gameManager);
         map = new Map(mapPane, inputManager);
         informationHeader = new InformationHeader(headerPane, inputManager);
         tileInfoWindow = new TileInfoWindow(tileInfoPane, inputManager);
