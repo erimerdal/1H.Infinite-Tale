@@ -133,6 +133,7 @@ public class MapTile extends Polygon {
             Image image = new Image(getClass().getResourceAsStream("/soldiers.png"));
             soldierLabel.setGraphic(new ImageView(image));
             soldierLabel.setWrapText(true);
+            soldierLabel.setMouseTransparent(true);
 
         }
         else
