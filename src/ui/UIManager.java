@@ -2,21 +2,18 @@ package ui;
 
 import game.FactionData;
 import game.GameManager;
-import game.MapWrapper;
 import game.TileInfo;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import map.MapData;
-
-import java.util.Set;
 
 public class UIManager extends Application {
     private Stage primaryStage;
@@ -40,14 +37,12 @@ public class UIManager extends Application {
         SplitPane mainPane = new SplitPane();
         mainPane.setOrientation(Orientation.HORIZONTAL);
 
-        StackPane mapPane = new StackPane();
+        ScrollPane mapPane = new ScrollPane();
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-        SplitPane.setResizableWithParent(mapPane, false);
-        mapPane.setMinSize(1024, 768);
 
         FlowPane headerPane = new FlowPane();
-        headerPane.setMinHeight(35);
-        headerPane.setMaxHeight(35);
+        headerPane.setMinHeight(30);
+        headerPane.setMaxHeight(30);
 
         SplitPane leftPane = new SplitPane();
         leftPane.setOrientation(Orientation.VERTICAL);
@@ -61,6 +56,8 @@ public class UIManager extends Application {
         infoPane.setOrientation(Orientation.VERTICAL);
         infoPane.getItems().add(tileInfoPane);
         infoPane.getItems().add(factionInfoPane);
+        infoPane.setMinWidth(200);
+        infoPane.setMaxWidth(200);
 
         mainPane.getItems().add(leftPane);
         mainPane.getItems().add(infoPane);
@@ -68,6 +65,8 @@ public class UIManager extends Application {
         gameScene = new Scene(mainPane, 1280, 960);
 
         primaryStage.setScene(gameScene);
+        primaryStage.setMinWidth(1024);
+        primaryStage.setMinHeight(768);
         primaryStage.show();
 
         GameManager gameManager = new GameManager();
@@ -99,6 +98,9 @@ public class UIManager extends Application {
         mainMenuScene = new Scene(mainMenuPane, 1280,960);
 
         primaryStage.setScene(mainMenuScene);
+        // TESTING
+        primaryStage.setScene(gameScene);
+        setMusicMute(true);
         primaryStage.show();
 
         GridPane lorePane = new GridPane();

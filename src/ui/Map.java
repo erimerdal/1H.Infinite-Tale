@@ -1,17 +1,17 @@
 package ui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeType;
 import map.MapData;
 import game.FactionData;
 import game.MapColor;
@@ -28,11 +28,21 @@ public class Map {
     private ArrayList<Label> soldierLabels;
     private ArrayList<Polygon> highlighters;
     private int mapWidth = 8;
+    private int mapHeight = 20;
     private int numOfTiles = 150;
     private int lastClicked = 0;
+    private double side = 50;
 
-    public Map(StackPane mp, InputManager im) {
-        mapPane = mp;
+    public Map(ScrollPane mp, InputManager im) {
+
+        mapPane = new StackPane();
+        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+        mapPane.setMinSize(1150,910);
+        mp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        mp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        mp.setPannable(true);
+        mp.setContent(new Group(mapPane));
+
         inputManager = im;
         colors = new ArrayList<>();
         mapData = new MapData();
@@ -49,6 +59,63 @@ public class Map {
 
         setNeighbours();
         drawMap();
+
+        mp.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double scaleRatio = (double)newValue / mapPane.getWidth();
+
+                if(scaleRatio > mapPane.getScaleX()) {
+                    mapPane.setScaleX(scaleRatio);
+                    mapPane.setScaleY(scaleRatio);
+                }
+            }
+        });
+
+        mp.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double scaleRatio = (double)newValue / mapPane.getHeight();
+
+                if(scaleRatio > mapPane.getScaleY()) {
+                    mapPane.setScaleX(scaleRatio);
+                    mapPane.setScaleY(scaleRatio);
+                }
+            }
+        });
+
+
+        mapPane.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                double moveX = (mapPane.getWidth() / 2 - event.getX()) * (mapPane.getScaleX() * 0.1);
+                double moveY = (mapPane.getHeight() / 2 - event.getY()) * (mapPane.getScaleY() * 0.1);
+
+                if(event.getDeltaY() > 0) {
+                    mapPane.setScaleX(mapPane.getScaleX() * 1.1);
+                    mapPane.setScaleY(mapPane.getScaleY() * 1.1);
+                }
+                else {
+                    if(mapPane.getScaleX() > 1.09) {
+                        mapPane.setScaleX(mapPane.getScaleX() / 1.1);
+                        mapPane.setScaleY(mapPane.getScaleY() / 1.1);
+                        moveX = 0 - moveX;
+                        moveY = 0 - moveY;
+                    }
+                    else {
+                        moveX = 0;
+                        moveY = 0;
+                    }
+                }
+
+                /*
+                @TODO
+                    Implement focused zooming
+                 */
+
+                event.consume();
+            }
+        });
     }
 
     public void updateMap(MapData md) {
@@ -93,7 +160,7 @@ public class Map {
     }
 
     public void addFaction(FactionData faction) {
-
+        // @TODO implementation
     }
 
     public int highlight(double x, double y) {
@@ -105,18 +172,12 @@ public class Map {
         mapPane.getChildren().setAll(mapTiles);
         mapPane.getChildren().addAll(soldierLabels);
         mapPane.getChildren().addAll(highlighters);
-        //
-        mapPane.setStyle("-fx-background-image: url(\"mapBackground.jpg\");-fx-background-repeat: stretch;   \n" +
-                "    -fx-background-size: 1300 1000;\n" +
-                "    -fx-background-position: center center;\n" +
-                "    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); ");
     }
 
     private MapTile createTile(int id) {
-        double topLeftX = 0 - mapPane.getWidth() / 2;
-        double topLeftY = 0 - mapPane.getHeight() / 2;
-        double side = mapPane.getWidth() / (mapWidth * 3 - 1);
         double r3 = Math.sqrt(3) * side / 2;
+        double topLeftX = 0 - (mapWidth - 1) * 3 * side / 2;
+        double topLeftY = 0 - (mapHeight * r3 + r3) / 2;
         MapTile mapTile = new MapTile(id, side, r3);
 
         mapTile.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -149,10 +210,10 @@ public class Map {
         row = row + id / (mapWidth * 2 - 1) * 2;
         col %= mapWidth;
         if(row % 2 == 0) {
-            mapTile.setTranslateX(topLeftX + col * side * 3 + side);
+            mapTile.setTranslateX(topLeftX + col * side * 3);
         }
         else {
-            mapTile.setTranslateX(topLeftX + col * side * 3 + side * 5 / 2);
+            mapTile.setTranslateX(topLeftX + col * side * 3 + side * 3 / 2);
         }
         mapTile.setTranslateY(topLeftY + row * r3 + r3);
 
