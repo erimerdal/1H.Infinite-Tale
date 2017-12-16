@@ -92,8 +92,8 @@ public class UIManager extends Application {
 
         primaryStage.setScene(mainMenuScene);
         // TESTING
-        primaryStage.setScene(gameScene);
-        setMusicMute(true);
+        // primaryStage.setScene(gameScene);
+        // setMusicMute(true);
         primaryStage.show();
 
         GridPane lorePane = new GridPane();
