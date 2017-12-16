@@ -75,6 +75,7 @@ public class MapTile extends Polygon {
             terrain initialization
          */
 
+
         setFill(color);
         setStroke(Color.LIGHTGRAY);
         setStrokeType(StrokeType.INSIDE);
@@ -129,14 +130,14 @@ public class MapTile extends Polygon {
         if(n > 0 && !hidden) {
             soldierLabel.setText(" S: " + n + " ");
             // Tried to add soldier picture but weirdly label went şeffaf instead of picture.
-            //soldierLabel.setStyle("-fx-background-image: url(\"/Users/erimerdal/Desktop/TerminalKanser/src/soldiers.jpg\");");
+            soldierLabel.setStyle("-fx-text-fill: palegoldenrod;-fx-background-color: transparent; -fx-font: italic 20 \"serif\"; -fx-padding: 0 0 20 0; -fx-text-alignment: center");
+            Image image = new Image(getClass().getResourceAsStream("/soldiers.png"));
+            soldierLabel.setGraphic(new ImageView(image));
+            soldierLabel.setWrapText(true);
+
         }
         else
             soldierLabel.setText("");
-        /*
-        @TODO
-            Implement visuals for soldiers on map
-         */
     }
 
     public int getNumOfUnits() {
