@@ -77,6 +77,7 @@ public class UIManager extends Application {
         factionInfoWindow = new FactionInfoWindow(factionInfoPane, inputManager);
 
         map.updateMap(gameManager.getPlayerMap());
+        map.drawGeographicalMap();
         updateHeader(gameManager.getFactionInfo(0));
 
         GridPane settingsPane = new GridPane();

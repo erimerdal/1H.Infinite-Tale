@@ -130,21 +130,13 @@ public class Map {
         });
     }
 
-    public void updateMap(MapData md) {
-        if(md == null)
+    public void drawGeographicalMap() {
+        if(mapData == null)
             return;
-
-        mapData = md;
-        for(int i = 0; i < md.ownedTile.size(); i++) {
-            Tile tile = md.ownedTile.get(i);
+        for(int i = 0; i < mapData.ownedTile.size(); i++) {
+            Tile tile = mapData.ownedTile.get(i);
             if(tile == null)
                 continue;
-
-            mapTiles.get(tile.getId()).setHidden(false);
-            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
-            if(tile.getTotalUnits() > 0)
-                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
-            mapTiles.get(tile.getId()).updateTile(tile);
 
             int terrain = tile.getTerrain().getTerrain().getTerrainType();
             ImageView bg = tileImages.get(tile.getId());
@@ -161,16 +153,10 @@ public class Map {
                 bg.setViewport(mask);
             }
         }
-        for(int i = 0; i < md.open.size(); i++) {
-            Tile tile = md.open.get(i);
+        for(int i = 0; i < mapData.open.size(); i++) {
+            Tile tile = mapData.open.get(i);
             if(tile == null)
                 continue;
-
-            mapTiles.get(tile.getId()).setHidden(false);
-            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
-            if(tile.getTotalUnits() > 0)
-                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
-            mapTiles.get(tile.getId()).updateTile(tile);
 
             int terrain = tile.getTerrain().getTerrain().getTerrainType();
             ImageView bg = tileImages.get(tile.getId());
@@ -191,16 +177,10 @@ public class Map {
                 bg.setViewport(mask);
             }
         }
-        for(int i = 0; i < md.closed.size(); i++) {
-            Tile tile = md.closed.get(i);
+        for(int i = 0; i < mapData.closed.size(); i++) {
+            Tile tile = mapData.closed.get(i);
             if(tile == null)
                 continue;
-
-            mapTiles.get(tile.getId()).setHidden(true);
-            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
-            if(tile.getTotalUnits() > 0)
-                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
-            mapTiles.get(tile.getId()).updateTile(tile);
 
             int terrain = tile.getTerrain().getTerrain().getTerrainType();
             ImageView bg = tileImages.get(tile.getId());
@@ -220,6 +200,47 @@ public class Map {
                 Rectangle2D mask = new Rectangle2D(0, offset, 128, 191);
                 bg.setViewport(mask);
             }
+        }
+        drawMap();
+    }
+
+    public void updateMap(MapData md) {
+        if(md == null)
+            return;
+
+        mapData = md;
+        for(int i = 0; i < md.ownedTile.size(); i++) {
+            Tile tile = md.ownedTile.get(i);
+            if(tile == null)
+                continue;
+
+            mapTiles.get(tile.getId()).setHidden(false);
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
+            if(tile.getTotalUnits() > 0)
+                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
+            mapTiles.get(tile.getId()).updateTile(tile);
+        }
+        for(int i = 0; i < md.open.size(); i++) {
+            Tile tile = md.open.get(i);
+            if(tile == null)
+                continue;
+
+            mapTiles.get(tile.getId()).setHidden(false);
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
+            if(tile.getTotalUnits() > 0)
+                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
+            mapTiles.get(tile.getId()).updateTile(tile);
+        }
+        for(int i = 0; i < md.closed.size(); i++) {
+            Tile tile = md.closed.get(i);
+            if(tile == null)
+                continue;
+
+            mapTiles.get(tile.getId()).setHidden(true);
+            mapTiles.get(tile.getId()).setTileColor(colors.get(tile.getOwner().getOwnerId()));
+            if(tile.getTotalUnits() > 0)
+                mapTiles.get(tile.getId()).setSoldierColor(colors.get(tile.getTroops().get(0).getOwnerId()));
+            mapTiles.get(tile.getId()).updateTile(tile);
         }
         drawMap();
     }
