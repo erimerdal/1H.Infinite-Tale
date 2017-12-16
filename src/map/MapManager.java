@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MapManager {
+    private static MapManager singleton = null;
     private ArrayList<Province> provinces;
     private ArrayList<Tile> tiles;
     private int mapWidth = 8;
-    public MapManager()
+    private MapManager()
     {
         provinces = new ArrayList<>();
         tiles = new ArrayList<>();
@@ -86,6 +87,14 @@ public class MapManager {
 
         setNeighbours();
     }
+
+    public static MapManager getMapManager() {
+        if(singleton == null)
+            singleton = new MapManager();
+
+        return singleton;
+    }
+
     public MapData getMapData(int factionId)
     {
         MapData data = new MapData();

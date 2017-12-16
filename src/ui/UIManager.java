@@ -38,7 +38,6 @@ public class UIManager extends Application {
         mainPane.setOrientation(Orientation.HORIZONTAL);
 
         ScrollPane mapPane = new ScrollPane();
-        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
 
         FlowPane headerPane = new FlowPane();
         headerPane.setMinHeight(30);
@@ -65,24 +64,17 @@ public class UIManager extends Application {
         gameScene = new Scene(mainPane, 1280, 960);
 
         primaryStage.setScene(gameScene);
-        primaryStage.setMinWidth(1024);
-        primaryStage.setMinHeight(768);
+        primaryStage.setMinWidth(1280);
+        primaryStage.setMinHeight(960);
         primaryStage.show();
 
-        GameManager gameManager = new GameManager();
+        GameManager gameManager = GameManager.getGameManager();
 
-        InputManager inputManager = new InputManager(this, gameManager);
+        InputManager inputManager = InputManager.getInputManager(this, gameManager);
         map = new Map(mapPane, inputManager);
         informationHeader = new InformationHeader(headerPane, inputManager);
         tileInfoWindow = new TileInfoWindow(tileInfoPane, inputManager);
         factionInfoWindow = new FactionInfoWindow(factionInfoPane, inputManager);
-
-        mapPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(map.getLastClicked() + " tıklandı");
-            }
-        });
 
         map.updateMap(gameManager.getPlayerMap());
         updateHeader(gameManager.getFactionInfo(0));

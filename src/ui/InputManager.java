@@ -6,12 +6,20 @@ import game.TileInfo;
 import map.BattleInfo;
 
 public class InputManager {
+    private static InputManager singleton = null;
     private UIManager uiManager;
     private GameManager gameManager;
 
-    public InputManager(UIManager uiMan, GameManager gmMan) {
+    private InputManager(UIManager uiMan, GameManager gmMan) {
         uiManager = uiMan;
         gameManager = gmMan;
+    }
+
+    public static InputManager getInputManager(UIManager uiMan, GameManager gmMan) {
+        if(singleton == null)
+            singleton = new InputManager(uiMan, gmMan);
+
+        return singleton;
     }
 
     public boolean moveUnits(int from, int to) {

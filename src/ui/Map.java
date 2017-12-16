@@ -10,7 +10,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import map.MapData;
 import game.FactionData;
@@ -36,7 +35,6 @@ public class Map {
     public Map(ScrollPane mp, InputManager im) {
 
         mapPane = new StackPane();
-        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
         mapPane.setMinSize(1150,910);
         mp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -88,30 +86,23 @@ public class Map {
         mapPane.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
             public void handle(ScrollEvent event) {
-                double moveX = (mapPane.getWidth() / 2 - event.getX()) * (mapPane.getScaleX() * 0.1);
-                double moveY = (mapPane.getHeight() / 2 - event.getY()) * (mapPane.getScaleY() * 0.1);
-
                 if(event.getDeltaY() > 0) {
                     mapPane.setScaleX(mapPane.getScaleX() * 1.1);
                     mapPane.setScaleY(mapPane.getScaleY() * 1.1);
                 }
                 else {
-                    if(mapPane.getScaleX() > 1.09) {
-                        mapPane.setScaleX(mapPane.getScaleX() / 1.1);
-                        mapPane.setScaleY(mapPane.getScaleY() / 1.1);
-                        moveX = 0 - moveX;
-                        moveY = 0 - moveY;
-                    }
-                    else {
-                        moveX = 0;
-                        moveY = 0;
-                    }
-                }
+                    double widthScale = mp.getWidth() / mapPane.getWidth();
+                    double heightScale = mp.getHeight() / mapPane.getHeight();
 
-                /*
-                @TODO
-                    Implement focused zooming
-                 */
+                    if(heightScale > widthScale)
+                        widthScale = heightScale;
+
+                    if(widthScale < (mapPane.getScaleX() / 1.1))
+                        widthScale = mapPane.getScaleX() / 1.1;
+
+                    mapPane.setScaleX(widthScale);
+                    mapPane.setScaleY(widthScale);
+                }
 
                 event.consume();
             }
@@ -163,11 +154,6 @@ public class Map {
         // @TODO implementation
     }
 
-    public int highlight(double x, double y) {
-        System.out.println(x);
-        return 0;
-    }
-
     private void drawMap() {
         mapPane.getChildren().setAll(mapTiles);
         mapPane.getChildren().addAll(soldierLabels);
@@ -194,11 +180,8 @@ public class Map {
                 }
                 else if(event.getButton() == MouseButton.SECONDARY) {
                     MapTile last = mapTiles.get(lastClicked);
-                    System.out.println(last.isHidden());
-                    System.out.println(last.getNumOfUnits());
-                    System.out.println(last.isNeighbour(mapTile.getTileId()));
+                    last.setSelected(false);
                     if(!last.isHidden() && last.getNumOfUnits() > 0 && last.isNeighbour(mapTile.getTileId())) {
-                        System.out.println(last.getTileId() +  " sends soldiers to " + mapTile.getTileId());
                         inputManager.moveUnits(last.getTileId(), mapTile.getTileId());
                     }
                 }
