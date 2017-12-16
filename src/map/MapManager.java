@@ -368,7 +368,7 @@ public class MapManager {
         }
     }
 
-    private ArrayList<Tile> getNeighbourTiles(int id) {
+    public ArrayList<Tile> getNeighbourTiles(int id) {
         ArrayList<Tile> nb = new ArrayList<>();
         int index = 0;
 

@@ -5,6 +5,8 @@ import map.MapData;
 import map.MapManager;
 import map.Tile;
 
+import java.util.ArrayList;
+
 public class MapWrapper {
     private int id;
     private int factionId;
@@ -43,6 +45,10 @@ public class MapWrapper {
 
     public TileInfo getTileInfo(int id) {
         return new TileInfo(mapManager.getTileById(id));
+    }
+
+    public ArrayList<Tile> getNeighbourTiles(int id) {
+        return mapManager.getNeighbourTiles(id);
     }
 
     public int getId() {
