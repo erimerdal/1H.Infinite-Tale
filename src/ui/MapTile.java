@@ -2,6 +2,7 @@ package ui;
 
 import game.MapColor;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.GaussianBlur;
@@ -14,6 +15,7 @@ import map.Tile;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javax.lang.model.type.NullType;
 import java.util.ArrayList;
 
 public class MapTile extends Polygon {
@@ -60,8 +62,8 @@ public class MapTile extends Polygon {
         highlighter.getPoints().setAll(getPoints());
         highlighter.setScaleX(0.9);
         highlighter.setScaleY(0.9);
-        highlighter.setFill(new Color(0,0,0,0));
-        highlighter.setStroke(new Color(0.2,1,0.2,0.8));
+        highlighter.setFill(new Color(0, 0, 0, 0));
+        highlighter.setStroke(new Color(0.2, 1, 0.2, 0.8));
         highlighter.setStrokeType(StrokeType.INSIDE);
         highlighter.setStrokeWidth(0);
         BoxBlur boxBlur = new BoxBlur();
@@ -103,7 +105,7 @@ public class MapTile extends Polygon {
     }
 
     public boolean updateTile(Tile tile) {
-        if(tileId != tile.getId())
+        if (tileId != tile.getId())
             return false;
 
         setNumOfUnits(tile.getTotalUnits());
@@ -127,7 +129,7 @@ public class MapTile extends Polygon {
 
     public void setNumOfUnits(int n) {
         numOfUnits = n;
-        if(n > 0 && !hidden) {
+        if (n > 0 && !hidden) {
             soldierLabel.setText(" S: " + n + " ");
             soldierLabel.setStyle("-fx-text-fill: magenta;-fx-background-color: rgba(0, 0, 0, 0); -fx-font: italic 20 \"serif\"; -fx-padding: 0 0 20 0; -fx-text-alignment: center");
             Image image = new Image(getClass().getResourceAsStream("/soldiers.png"));
@@ -135,10 +137,17 @@ public class MapTile extends Polygon {
             soldierLabel.setWrapText(true);
             soldierLabel.setMouseTransparent(true);
 
-        }
-        else
+
+        } else
             soldierLabel.setText("");
+        if(n == 0){
+            soldierLabel.setGraphic(null);
+        }
+
     }
+
+
+
 
     public int getNumOfUnits() {
         return numOfUnits;
