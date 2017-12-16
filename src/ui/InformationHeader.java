@@ -18,6 +18,7 @@ public class InformationHeader {
     private FactionData info;
     private Button endTurnButton;
     private Button settingsButton;
+    private Button mapViewButtton;
     private Label treasury;
     private Label netIncome;
     private Label totalProv;
@@ -55,6 +56,20 @@ public class InformationHeader {
             }
         });
 
+        mapViewButtton = new Button("Show Geographic View");
+        mapViewButtton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.PRIMARY){
+                    inputManager.swapMapView();
+                    if(mapViewButtton.getText().equals("Show Geographic View"))
+                        mapViewButtton.setText("Hide Geographic View");
+                    else
+                        mapViewButtton.setText("Show Geographic View");
+                }
+            }
+        });
+
         settingsButton = new Button("Settings");
         settingsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -73,6 +88,7 @@ public class InformationHeader {
                 totalProv,
                 totalUnit,
                 spacer2,
+                mapViewButtton,
                 endTurnButton
         );
         toolBar.setMinWidth(header.getWidth());

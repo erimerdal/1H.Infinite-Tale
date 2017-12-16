@@ -160,6 +160,13 @@ public class UIManager extends Application {
         map.updateMap(mapData);
     }
 
+    public void setMapView(boolean mapView) {
+        if(mapView)
+            map.showGeographic();
+        else
+            map.hideGeographic();
+    }
+
     public static void main(String[] args)
     {
         launch(args);

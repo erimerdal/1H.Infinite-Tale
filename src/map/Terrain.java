@@ -20,4 +20,8 @@ public class Terrain {
     {
         return weather.getDefenseBonus() + terrain.getDefenseBonus();
     }
+
+    public TerrainType getTerrain() {
+        return terrain;
+    }
 }

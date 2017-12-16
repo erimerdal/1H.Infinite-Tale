@@ -9,6 +9,7 @@ public class InputManager {
     private static InputManager singleton = null;
     private UIManager uiManager;
     private GameManager gameManager;
+    private boolean mapView = false;
 
     private InputManager(UIManager uiMan, GameManager gmMan) {
         uiManager = uiMan;
@@ -88,5 +89,10 @@ public class InputManager {
 
     public void quit() {
         uiManager.quit();
+    }
+
+    public void swapMapView() {
+        mapView = !mapView;
+        uiManager.setMapView(mapView);
     }
 }

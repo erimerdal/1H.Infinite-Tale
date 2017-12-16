@@ -1,6 +1,7 @@
 package map;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Tile {
     private int id;
@@ -12,7 +13,17 @@ public class Tile {
     {
         this.id = id;
         WeatherType weatherType = new WeatherType(true,false,false);
-        TerrainType terrainType = new TerrainType( true,false,false);
+
+        Random rand = new Random();
+        int r = rand.nextInt(20);
+        TerrainType terrainType;
+        if(r < 6)
+            terrainType = new TerrainType( true,false,false);
+        else if(r < 19)
+            terrainType = new TerrainType( false,true,false);
+        else
+            terrainType = new TerrainType( false,false,true);
+
         terrain = new Terrain(weatherType, terrainType);
         troops = new ArrayList<>();
         this.owner = owner;

@@ -42,5 +42,15 @@ public class TerrainType {
                 return 4;
             }
         }
+
+        public int getTerrainType() {
+            if(hills)
+                return 1;
+
+            if(mountain)
+                return 2;
+
+            return 3;
+        }
     }
 
